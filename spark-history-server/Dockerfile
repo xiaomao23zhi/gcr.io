@@ -1,4 +1,4 @@
-From gcr.io/spark-operator/spark-history-server:v3.1.1
+From gcr.io/spark-operator/spark:v3.1.1-hadoop3
 
 ADD ./entrypoint.sh /opt/entrypoint.sh
 
