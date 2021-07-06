@@ -182,4 +182,4 @@ else
     -Dspark.history.fs.logDirectory=$eventsDir";
 fi;
 
-exec /usr/bin/tini -s -- /opt/spark/bin/spark-class org.apache.spark.deploy.history.HistoryServer
+exec /sbin/tini -s -- /opt/spark/bin/spark-class org.apache.spark.deploy.history.HistoryServer
