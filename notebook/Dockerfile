@@ -22,9 +22,6 @@ RUN apt-get update --yes && \
 # Fix for devtools https://github.com/conda-forge/r-devtools-feedstock/issues/4
 RUN ln -s /bin/tar /bin/gtar
 
-# Fix font
-COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
-
 USER $NB_UID
 
 # Install sparkmagic
@@ -37,6 +34,9 @@ RUN jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
     jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/sparkkernel && \
     jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/pysparkkernel && \
     jupyter serverextension enable --py sparkmagic
+ 
+ # Fix font
+COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
 
 # Install R
 RUN conda install --quiet --yes \
