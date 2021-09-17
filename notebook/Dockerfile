@@ -28,8 +28,7 @@ COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fon
 USER $NB_UID
 
 # Install sparkmagic
-RUN npm config set registry https://registry.npm.taobao.org && \
-    pip install sparkmagic -i https://pypi.tuna.tsinghua.edu.cn/simple
+RUN pip install sparkmagic
 RUN mkdir /home/$NB_USER/.sparkmagic
 COPY ./sparkmagic-config-$PROFILE.json /home/$NB_USER/.sparkmagic/config.json
 RUN jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
@@ -72,7 +71,7 @@ RUN Rscript -e "install.packages('igraph')"
 # Install dask
 RUN conda create --name dask --offline && \
     source activate dask
-RUN pip install nbconvert==5.6.1 dask==2021.6.0 distributed==2021.6.0 dask-gateway==0.9.0 dask-ml msgpack==1.0.2 -i https://pypi.tuna.tsinghua.edu.cn/simple --proxy="http://proxy.cmcc:8080/"
+RUN pip install nbconvert==5.6.1 dask==2021.6.0 distributed==2021.6.0 dask-gateway==0.9.0 dask-ml msgpack==1.0.2
 RUN python -m ipykernel install --name dask --display-name "Dask"
 
 USER root
