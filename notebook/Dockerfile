@@ -25,16 +25,16 @@ RUN ln -s /bin/tar /bin/gtar
 USER $NB_UID
 
 # Install sparkmagic
-RUN pip install sparkmagic
-RUN mkdir /home/$NB_USER/.sparkmagic
-COPY ./sparkmagic-config-$PROFILE.json /home/$NB_USER/.sparkmagic/config.json
-RUN jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
+RUN pip install sparkmagic && \
+    jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
     jupyter labextension install "@jupyter-widgets/jupyterlab-manager" && \
     jupyter labextension install jupyterlab-plotly && \
     jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/sparkkernel && \
     jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/pysparkkernel && \
     jupyter serverextension enable --py sparkmagic
- 
+RUN mkdir /home/$NB_USER/.sparkmagic
+COPY ./sparkmagic-config-$PROFILE.json /home/$NB_USER/.sparkmagic/config.json
+
 # Fix font
 COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
 
@@ -67,13 +67,20 @@ RUN conda install --quiet --yes \
 
 # Install e1071 R package (dependency of the caret R package)
 RUN conda install --quiet --yes r-e1071
-#RUN Rscript -e "install.packages('igraph')"
+RUN Rscript -e "install.packages('igraph')"
 
 # Install dask
 RUN conda create --name dask --offline && \
     source activate dask
-RUN pip install nbconvert==5.6.1 dask==2021.6.0 distributed==2021.6.0 dask-gateway==0.9.0 dask-ml msgpack==1.0.2 --ignore-installed llvmlite
-RUN python -m ipykernel install --name dask --display-name "Dask"
+RUN pip install --ignore-installed llvmlite \
+    nbconvert==5.6.1 \
+    dask==2021.6.0 \
+    distributed==2021.6.0 \
+    dask-gateway==0.9.0 \
+    dask-ml \
+    msgpack==1.0.2 \
+    && \
+    python -m ipykernel install --name dask --display-name "Dask"
 
 RUN rm -rf ~/.cache/pip ~/.cache/yarn
 
