@@ -66,7 +66,7 @@ RUN conda install --quiet --yes \
 
 # Install e1071 R package (dependency of the caret R package)
 RUN conda install --quiet --yes r-e1071
-RUN Rscript -e "install.packages('igraph')"
+#RUN Rscript -e "install.packages('igraph')"
 
 # Install dask
 RUN conda create --name dask --offline && \
