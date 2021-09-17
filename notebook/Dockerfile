@@ -35,9 +35,10 @@ RUN jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
     jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/pysparkkernel && \
     jupyter serverextension enable --py sparkmagic
  
- # Fix font
+# Fix font
 COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
 
+USER root
 # Install R
 RUN conda install --quiet --yes \
     'r-base=3.6.3' \
@@ -74,7 +75,6 @@ RUN conda create --name dask --offline && \
 RUN pip install nbconvert==5.6.1 dask==2021.6.0 distributed==2021.6.0 dask-gateway==0.9.0 dask-ml msgpack==1.0.2 --ignore-installed llvmlite
 RUN python -m ipykernel install --name dask --display-name "Dask"
 
-USER root
 RUN rm -rf ~/.cache/pip ~/.cache/yarn
 
 USER $NB_UID
