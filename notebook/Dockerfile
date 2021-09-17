@@ -71,7 +71,7 @@ RUN conda install --quiet --yes r-e1071
 # Install dask
 RUN conda create --name dask --offline && \
     source activate dask
-RUN pip install nbconvert==5.6.1 dask==2021.6.0 distributed==2021.6.0 dask-gateway==0.9.0 dask-ml msgpack==1.0.2
+RUN pip install nbconvert==5.6.1 dask==2021.6.0 distributed==2021.6.0 dask-gateway==0.9.0 dask-ml msgpack==1.0.2 --ignore-installed llvmlite
 RUN python -m ipykernel install --name dask --display-name "Dask"
 
 USER root
