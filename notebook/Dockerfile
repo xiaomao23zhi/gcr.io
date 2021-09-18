@@ -27,8 +27,6 @@ USER $NB_UID
 # Install sparkmagic
 RUN pip install sparkmagic && \
     jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
-    jupyter labextension install "@jupyter-widgets/jupyterlab-manager" && \
-    jupyter labextension install jupyterlab-plotly && \
     jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/sparkkernel && \
     jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/pysparkkernel && \
     jupyter serverextension enable --py sparkmagic
