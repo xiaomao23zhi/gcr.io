@@ -1,4 +1,4 @@
-FROM jupyter/pyspark-notebook:24da256d4ed9
+FROM jupyter/pyspark-notebook:spark-2
 
 MAINTAINER xiaomao23zhi <https://github.com/xiaomao23zhi/>
 
@@ -36,7 +36,7 @@ COPY ./sparkmagic-config-$PROFILE.json /home/$NB_USER/.sparkmagic/config.json
 # Fix font
 COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
 
-USER root
+#USER root
 # Install R
 RUN conda install --quiet --yes \
     'r-base=3.6.3' \
