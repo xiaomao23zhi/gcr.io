@@ -36,7 +36,6 @@ COPY ./sparkmagic-config-$PROFILE.json /home/$NB_USER/.sparkmagic/config.json
 # Fix font
 COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
 
-USER root
 # Install R
 RUN conda install --quiet --yes \
     'r-base=3.6.3' \
