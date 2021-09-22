@@ -77,7 +77,7 @@ RUN pip install --ignore-installed llvmlite \
     dask-ml \
     msgpack==1.0.2 \
     && \
-    python -m ipykernel install --name dask --display-name "Dask"
+    python -m ipykernel install --user --name dask --display-name "Dask"
 
 RUN rm -rf ~/.cache/pip ~/.cache/yarn
 
