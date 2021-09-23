@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 FROM jupyter/pyspark-notebook:spark-3.1.1
+=======
+FROM jupyter/pyspark-notebook:spark-2
+>>>>>>> Stashed changes
 
 MAINTAINER xiaomao23zhi <https://github.com/xiaomao23zhi/>
 
@@ -25,8 +29,13 @@ RUN ln -s /bin/tar /bin/gtar
 USER $NB_UID
 
 # Install sparkmagic
+<<<<<<< Updated upstream
 RUN pip install sparkmagic && \
     jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
+=======
+RUN pip install sparkmagic
+RUN jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
+>>>>>>> Stashed changes
     jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/sparkkernel && \
     jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/pysparkkernel && \
     jupyter serverextension enable --py sparkmagic
@@ -36,6 +45,12 @@ COPY ./sparkmagic-config-$PROFILE.json /home/$NB_USER/.sparkmagic/config.json
 # Fix font
 COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
 
+<<<<<<< Updated upstream
+=======
+COPY .condarc ~/.condarc
+
+#USER root
+>>>>>>> Stashed changes
 # Install R
 RUN conda install --quiet --yes \
     'r-base=3.6.3' \
