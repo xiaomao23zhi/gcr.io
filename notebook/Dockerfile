@@ -51,7 +51,7 @@ RUN conda install --quiet --yes \
     'r-plyr=1.8*' \
     'r-randomforest=4.6*' \
     'r-rcurl=1.98*' \
-   'r-reshape2=1.4*' \
+    'r-reshape2=1.4*' \
     'r-rmarkdown=2.1*' \
     'r-rodbc=1.3*' \
     'r-rsqlite=2.2*' \
