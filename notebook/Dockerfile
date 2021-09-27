@@ -10,7 +10,7 @@ USER root
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
     graphviz \
-    language-pack-zh-hans \
+    language-pack-zh-hans && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 USER $NB_UID
