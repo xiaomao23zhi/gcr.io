@@ -67,6 +67,7 @@
       "spark.yarn.maxAppAttempts": "1",
       "spark.executor.extraJavaOptions": "-XX:ThreadStackSize=20m -Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8",
       "spark.driver.extraJavaOptions": "-XX:ThreadStackSize=20m -Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8"
+    }
   },
 
   "use_auto_viz": true,
