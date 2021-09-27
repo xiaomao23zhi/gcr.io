@@ -27,7 +27,7 @@ COPY ./sparkmagic-config-$PROFILE.json /home/$NB_USER/.sparkmagic/config.json
 COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
 
 # Install dask
-RUN conda create --name dask --clone base --offline && \
+RUN conda create --name dask --clone base && \
     source activate dask
 RUN pip install --ignore-installed llvmlite \
     nbconvert==5.6.1 \
