@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
-FROM jupyter/pyspark-notebook:spark-3.1.1
-=======
-FROM jupyter/pyspark-notebook:spark-2
->>>>>>> Stashed changes
+FROM jupyter/all-spark-notebook:spark-3.1.1
 
 MAINTAINER xiaomao23zhi <https://github.com/xiaomao23zhi/>
 
@@ -15,27 +11,12 @@ RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
     graphviz \
     language-pack-zh-hans \
-    fonts-dejavu \
-    unixodbc \
-    unixodbc-dev \
-    r-cran-rodbc \
-    gfortran \
-    gcc && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Fix for devtools https://github.com/conda-forge/r-devtools-feedstock/issues/4
-RUN ln -s /bin/tar /bin/gtar
 
 USER $NB_UID
 
 # Install sparkmagic
-<<<<<<< Updated upstream
 RUN pip install sparkmagic && \
-    jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
-=======
-RUN pip install sparkmagic
-RUN jupyter nbextension enable --py --sys-prefix widgetsnbextension && \
->>>>>>> Stashed changes
     jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/sparkkernel && \
     jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/pysparkkernel && \
     jupyter serverextension enable --py sparkmagic
@@ -45,44 +26,8 @@ COPY ./sparkmagic-config-$PROFILE.json /home/$NB_USER/.sparkmagic/config.json
 # Fix font
 COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
 
-<<<<<<< Updated upstream
-=======
-COPY .condarc ~/.condarc
-
-#USER root
->>>>>>> Stashed changes
-# Install R
-RUN conda install --quiet --yes \
-    'r-base=3.6.3' \
-    'r-caret=6.0*' \
-    'r-crayon=1.3*' \
-    'r-devtools=2.3*' \
-    'r-forecast=8.12*' \
-    'r-hexbin=1.28*' \
-    'r-htmltools=0.4*' \
-    'r-htmlwidgets=1.5*' \
-    'r-irkernel=1.1*' \
-    'r-nycflights13=1.0*' \
-    'r-plyr=1.8*' \
-    'r-randomforest=4.6*' \
-    'r-rcurl=1.98*' \
-    'r-reshape2=1.4*' \
-    'r-rmarkdown=2.1*' \
-    'r-rodbc=1.3*' \
-    'r-rsqlite=2.2*' \
-    'r-shiny=1.4*' \
-    'r-tidyverse=1.3*' \
-    'unixodbc=2.3.*' \
-    && \
-    conda clean --all -f -y && \
-    fix-permissions "${CONDA_DIR}"
-
-# Install e1071 R package (dependency of the caret R package)
-RUN conda install --quiet --yes r-e1071
-#RUN Rscript -e "install.packages('igraph')"
-
 # Install dask
-RUN conda create --name dask --offline && \
+RUN conda create --name dask --clone base --offline && \
     source activate dask
 RUN pip install --ignore-installed llvmlite \
     nbconvert==5.6.1 \
