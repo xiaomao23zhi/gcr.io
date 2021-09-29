@@ -1,4 +1,4 @@
-FROM jupyter/registry.cn-hangzhou.aliyuncs.com/gcrioo/all-spark-notebook:spark-3.1.1
+FROM registry.cn-hangzhou.aliyuncs.com/gcrioo/all-spark-notebook:spark-3.1.1
 
 MAINTAINER xiaomao23zhi <https://github.com/xiaomao23zhi/>
 
