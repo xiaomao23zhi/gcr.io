@@ -4,3 +4,5 @@ dask==2021.6.0
 dask-gateway==0.9.0
 dask-glm==0.2.0
 dask-ml==1.9.0
+category-encoders==2.2.2
+kmodes==0.11.0
