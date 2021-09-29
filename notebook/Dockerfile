@@ -26,13 +26,15 @@ RUN mkdir /home/$NB_USER/.sparkmagic
 COPY ./sparkmagic-config-$PROFILE.json /home/$NB_USER/.sparkmagic/config.json
 
 # Install prophet
-RUN mamba install --quiet --yes \
-    'category-encoders' \
-    'kmodes' \
-    'fbprophet' && \
-    mamba clean --all -f -y && \
-    fix-permissions "${CONDA_DIR}" && \
-    fix-permissions "/home/${NB_USER}"
+RUN conda install -c conda-forge fbprophet && \
+    conda clean -a
+# RUN mamba install --quiet --yes \
+#     'category-encoders' \
+#     'kmodes' \
+#     'fbprophet' && \
+#     mamba clean --all -f -y && \
+#     fix-permissions "${CONDA_DIR}" && \
+#     fix-permissions "/home/${NB_USER}"
 
 # Fix font
 COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
