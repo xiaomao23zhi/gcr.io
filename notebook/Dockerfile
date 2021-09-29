@@ -1,9 +1,8 @@
-FROM jupyter/all-spark-notebook:lab-3.1.12
+FROM jupyter/registry.cn-hangzhou.aliyuncs.com/gcrioo/all-spark-notebook:spark-3.1.1
 
 MAINTAINER xiaomao23zhi <https://github.com/xiaomao23zhi/>
 
 ARG PROFILE=cicd
-ENV NB_USER=jovyan
 
 # Install packages
 USER root
