@@ -1,4 +1,4 @@
-FROM registry.cn-hangzhou.aliyuncs.com/gcrioo/all-spark-notebook:spark-3.1.1
+FROM jupyter/all-spark-notebook:6f4cbae746cd
 
 MAINTAINER xiaomao23zhi <https://github.com/xiaomao23zhi/>
 
@@ -26,16 +26,19 @@ RUN jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cu
 RUN mkdir /home/$NB_USER/.sparkmagic
 COPY ./sparkmagic-config-$PROFILE.json /home/$NB_USER/.sparkmagic/config.json
 
-# Install prophet
+Install prophet & dask
 # RUN conda install -c conda-forge fbprophet && \
 #     conda clean -a
-# RUN mamba install --quiet --yes \
-#     'category-encoders' \
-#     'kmodes' \
-#     'fbprophet' && \
-#     mamba clean --all -f -y && \
-#     fix-permissions "${CONDA_DIR}" && \
-#     fix-permissions "/home/${NB_USER}"
+RUN mamba install --quiet --yes \
+    'category-encoders' \
+    'kmodes' \
+    'fbprophet' \
+    'dask-gateway' \
+    'dask-ml' \
+    && \
+    mamba clean --all -f -y && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
 
 # Fix font
 COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
@@ -48,7 +51,7 @@ RUN R -e "install.packages(c('igraph','prophet'), dependencies=TRUE, repos='http
 #     source activate dask
 # RUN pip install --ignore-installed llvmlite \
 #     nbconvert==5.6.1 \
-#     dask==2021.6.0 \
+#     dask==2021.9.1 \
 #     distributed==2021.6.0 \
 #     dask-gateway==0.9.0 \
 #     dask-ml \
