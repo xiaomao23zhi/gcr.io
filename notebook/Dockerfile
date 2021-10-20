@@ -26,7 +26,7 @@ RUN jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cu
 RUN mkdir /home/$NB_USER/.sparkmagic
 COPY ./sparkmagic-config-$PROFILE.json /home/$NB_USER/.sparkmagic/config.json
 
-Install prophet & dask
+# Install prophet & dask
 # RUN conda install -c conda-forge fbprophet && \
 #     conda clean -a
 RUN mamba install --quiet --yes \
