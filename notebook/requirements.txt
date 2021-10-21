@@ -2,7 +2,7 @@ sparkmagic==0.19.1
 category-encoders==2.2.2
 kmodes==0.11.0
 dask==2021.8.1
-distibuted==2021.8.1
+distributed==2021.8.1
 dask-gateway==0.9.0
 dask-ml==2021.10.17
 dask-labextension==5.0.2
