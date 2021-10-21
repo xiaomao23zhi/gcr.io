@@ -17,6 +17,12 @@ USER $NB_UID
 # # Install pkgs
 # COPY requirements.txt /tmp/
 # RUN pip install --requirement /tmp/requirements.txt
+# Install from requirements.txt file
+COPY --chown=${NB_UID}:${NB_GID} requirements.txt /tmp/
+RUN mamba install --yes --file /tmp/requirements.txt && \
+    mamba clean --all -f -y && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
 
 # # Install sparkmagic
 # RUN jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/sparkkernel && \
@@ -56,5 +62,9 @@ RUN R -e "install.packages(c('igraph','prophet'), dependencies=TRUE, repos='http
 #     python -m ipykernel install --user --name dask --display-name "Dask"
 
 RUN rm -rf ~/.cache/pip ~/.cache/yarn
+
+# Dask Scheduler & Bokeh ports
+EXPOSE 8787
+EXPOSE 8786
 
 USER $NB_UID
