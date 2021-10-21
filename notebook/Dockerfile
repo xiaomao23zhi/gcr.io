@@ -14,9 +14,9 @@ RUN apt-get update --yes && \
 
 USER $NB_UID
 
-# Install pkgs
-COPY requirements.txt /tmp/
-RUN pip install --requirement /tmp/requirements.txt
+# # Install pkgs
+# COPY requirements.txt /tmp/
+# RUN pip install --requirement /tmp/requirements.txt
 
 # # Install sparkmagic
 # RUN jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/sparkkernel && \
