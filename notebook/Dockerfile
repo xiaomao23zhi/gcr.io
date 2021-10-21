@@ -21,7 +21,8 @@ RUN pip install --requirement /tmp/requirements.txt
 # Install sparkmagic
 RUN jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/sparkkernel && \
     jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/pysparkkernel && \
-    jupyter serverextension enable --py sparkmagic
+    jupyter serverextension enable --py sparkmagic && \
+    jupyter labextension disable ipyparallel-labextension
 RUN mkdir /home/$NB_USER/.sparkmagic
 COPY ./sparkmagic-config-$PROFILE.json /home/$NB_USER/.sparkmagic/config.json
 
