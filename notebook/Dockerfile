@@ -14,6 +14,10 @@ RUN apt-get update --yes && \
 
 USER $NB_UID
 
+# Install Kite
+RUN bash -c "$(wget -q -O - https://linux.kite.com/dls/linux/current)" && \
+    WAYLAND_DISPLAY= DISPLAY= bash -c "$(wget -q -O - https://linux.kite.com/dls/linux/current)"
+
 # Install from requirements.txt file
 COPY --chown=${NB_UID}:${NB_GID} requirements.txt /tmp/
 RUN pip install --quiet --no-cache-dir --requirement /tmp/requirements.txt && \
