@@ -15,14 +15,13 @@ RUN apt-get update --yes && \
 USER $NB_UID
 
 # Install Kite
-RUN WAYLAND_DISPLAY= DISPLAY= bash -c "$(wget -q -O - https://linux.kite.com/dls/linux/current)" && \
-    ~/.local/share/kite/login-user
+RUN wget -q -O - https://linux.kite.com/dls/linux/current
 
-# Install from requirements.txt file
-COPY --chown=${NB_UID}:${NB_GID} requirements.txt /tmp/
-RUN pip install --quiet --no-cache-dir --requirement /tmp/requirements.txt && \
-    fix-permissions "${CONDA_DIR}" && \
-    fix-permissions "/home/${NB_USER}"
+# # Install from requirements.txt file
+# COPY --chown=${NB_UID}:${NB_GID} requirements.txt /tmp/
+# RUN pip install --quiet --no-cache-dir --requirement /tmp/requirements.txt && \
+#     fix-permissions "${CONDA_DIR}" && \
+#     fix-permissions "/home/${NB_USER}"
 
 # # Install sparkmagic
 # RUN jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/sparkkernel && \
@@ -42,29 +41,29 @@ RUN pip install --quiet --no-cache-dir --requirement /tmp/requirements.txt && \
 #     fix-permissions "${CONDA_DIR}" && \
 #     fix-permissions "/home/${NB_USER}"
 
-# Fix font
-COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
+# # Fix font
+# COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
 
-# R packages
-RUN R -e "install.packages(c('igraph','prophet'), dependencies=TRUE, repos='http://cran.rstudio.com/')"
+# # R packages
+# RUN R -e "install.packages(c('igraph','prophet'), dependencies=TRUE, repos='http://cran.rstudio.com/')"
 
-# # Install dask
-# RUN conda create --name dask --clone base && \
-#     source activate dask
-# RUN pip install --ignore-installed llvmlite \
-#     nbconvert==5.6.1 \
-#     dask==2021.9.1 \
-#     distributed==2021.6.0 \
-#     dask-gateway==0.9.0 \
-#     dask-ml \
-#     msgpack==1.0.2 \
-#     && \
-#     python -m ipykernel install --user --name dask --display-name "Dask"
+# # # Install dask
+# # RUN conda create --name dask --clone base && \
+# #     source activate dask
+# # RUN pip install --ignore-installed llvmlite \
+# #     nbconvert==5.6.1 \
+# #     dask==2021.9.1 \
+# #     distributed==2021.6.0 \
+# #     dask-gateway==0.9.0 \
+# #     dask-ml \
+# #     msgpack==1.0.2 \
+# #     && \
+# #     python -m ipykernel install --user --name dask --display-name "Dask"
 
-RUN rm -rf ~/.cache/pip ~/.cache/yarn
+# RUN rm -rf ~/.cache/pip ~/.cache/yarn
 
-# Dask Scheduler & Bokeh ports
-EXPOSE 8787
-EXPOSE 8786
+# # Dask Scheduler & Bokeh ports
+# EXPOSE 8787
+# EXPOSE 8786
 
 USER $NB_UID
