@@ -14,11 +14,11 @@ RUN apt-get update --yes && \
 
 USER $NB_UID
 
-# # Install from requirements.txt file
-# COPY --chown=${NB_UID}:${NB_GID} requirements.txt /tmp/
-# RUN pip install --quiet --no-cache-dir --requirement /tmp/requirements.txt && \
-#     fix-permissions "${CONDA_DIR}" && \
-#     fix-permissions "/home/${NB_USER}"
+# Install from requirements.txt file
+COPY --chown=${NB_UID}:${NB_GID} requirements.txt /tmp/
+RUN pip install --quiet --no-cache-dir --requirement /tmp/requirements.txt && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
 
 # # Install sparkmagic
 # RUN jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/sparkkernel && \
