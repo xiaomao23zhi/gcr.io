@@ -15,7 +15,7 @@ RUN apt-get update --yes && \
 USER $NB_UID
 
 # Install Kite
-RUN wget -q -O - https://linux.kite.com/dls/linux/current
+RUN wget https://linux.kite.com/dls/linux/current
 
 # # Install from requirements.txt file
 # COPY --chown=${NB_UID}:${NB_GID} requirements.txt /tmp/
