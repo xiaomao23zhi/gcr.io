@@ -8,5 +8,4 @@ dask-ml==2021.10.17
 dask-labextension==5.0.2
 jupyter-resource-usage==0.6.0
 jupyterlab-system-monitor==0.8.0
-jupyterlab-lsp
-python-lsp-server[all]
+jupyer-kite
