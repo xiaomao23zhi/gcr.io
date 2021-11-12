@@ -14,6 +14,9 @@ RUN apt-get update --yes && \
 
 USER $NB_UID
 
+# Add user-settings
+COPY --chown=${NB_UID}:${NB_GID} user-settings /home/jovyan/.jupyter/lab/
+
 # Install from requirements.txt file
 COPY --chown=${NB_UID}:${NB_GID} requirements.txt /tmp/
 RUN pip install --quiet --no-cache-dir --requirement /tmp/requirements.txt && \
