@@ -45,7 +45,7 @@ RUN pip install --quiet --no-cache-dir --requirement /tmp/requirements.txt && \
 COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
 
 # R packages
-RUN R -e "install.packages(c('igraph','prophet'), dependencies=TRUE, repos='http://cran.rstudio.com/')"
+RUN R -e "install.packages(c('igraph','languageserver'), dependencies=TRUE, repos='http://cran.rstudio.com/')"
 
 # # Install dask
 # RUN conda create --name dask --clone base && \
