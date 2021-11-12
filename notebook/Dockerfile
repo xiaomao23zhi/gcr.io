@@ -2,17 +2,17 @@ FROM jupyter/all-spark-notebook:6f4cbae746cd
 
 MAINTAINER xiaomao23zhi <https://github.com/xiaomao23zhi/>
 
-ARG PROFILE=cicd
+# ARG PROFILE=cicd
 
-# Install packages
-USER root
-RUN apt-get update --yes && \
-    apt-get install --yes --no-install-recommends \
-    graphviz \
-    language-pack-zh-hans && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+# # Install packages
+# USER root
+# RUN apt-get update --yes && \
+#     apt-get install --yes --no-install-recommends \
+#     graphviz \
+#     language-pack-zh-hans && \
+#     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-USER $NB_UID
+# USER $NB_UID
 
 # Install Kite
 RUN wget https://linux.kite.com/dls/linux/current
