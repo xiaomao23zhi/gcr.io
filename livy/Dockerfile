@@ -1,1 +1,1 @@
-FROM sasnouskikh/livy:0.8.0-incubating-spark_3.0.1_2.12-hadoop_3.2.0_cloud
+FROM gcr.io/mapr-252711/apache-livy-0.8.0-pre:202105061656
