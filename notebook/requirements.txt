@@ -36,7 +36,6 @@ dask-labextension
 dask-ml
 dataclasses
 datashape
-demjson
 diff-match-patch
 distlib
 distributed
