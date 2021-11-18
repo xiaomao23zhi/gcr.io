@@ -151,13 +151,6 @@ pylint
 PyMeeus
 PyMySQL
 pystan
-pytest
-pytest-arraydiff
-pytest-astropy
-pytest-doctestplus
-pytest-openfiles
-pytest-pylint
-pytest-remotedata
 python-jsonrpc-server
 python-language-server
 python-lsp-server[all]
