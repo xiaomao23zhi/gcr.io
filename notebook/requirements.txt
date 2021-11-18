@@ -104,7 +104,6 @@ lunardate
 lxml
 Markdown
 mccabe
-minepy
 missingno
 more-itertools
 multipledispatch
