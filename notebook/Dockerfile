@@ -19,13 +19,10 @@ COPY --chown=${NB_UID}:${NB_GID} user-settings/ /home/jovyan/.jupyter/lab/user-s
 
 # Install from requirements.txt file
 COPY --chown=${NB_UID}:${NB_GID} requirements.txt /tmp/
-# RUN pip install --quiet --no-cache-dir --requirement /tmp/requirements.txt && \
-USER root
-RUN mamba install --yes --file /tmp/requirements.txt && \
+RUN pip install --no-cache-dir --requirement /tmp/requirements.txt && \
     mamba clean --all -f -y && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
-USER $NB_UID
 
 # # Install sparkmagic
 # RUN jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/sparkkernel && \
