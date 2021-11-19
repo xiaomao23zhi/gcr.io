@@ -19,7 +19,8 @@ COPY --chown=${NB_UID}:${NB_GID} user-settings/ /home/jovyan/.jupyter/lab/user-s
 
 # Install from requirements.txt file
 COPY --chown=${NB_UID}:${NB_GID} requirements.txt /tmp/
-RUN pip install --quiet --no-cache-dir --requirement /tmp/requirements.txt && \
+# RUN pip install --quiet --no-cache-dir --requirement /tmp/requirements.txt && \
+RUN mamba install --quie --yes --file /tmp/requirements.txt && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
 
