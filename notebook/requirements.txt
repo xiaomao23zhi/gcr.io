@@ -5,8 +5,6 @@ appdirs
 argh
 asn1crypto
 astor
-astroid
-astropy
 atomicwrites
 attr
 autopep8
