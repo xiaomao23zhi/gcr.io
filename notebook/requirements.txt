@@ -147,7 +147,6 @@ pydotplus
 pyecharts
 pyflakes
 PyHive
-pylint
 pystan
 python-lsp-server[all]
 pyxdg
