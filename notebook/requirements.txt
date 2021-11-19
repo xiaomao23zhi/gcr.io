@@ -148,7 +148,6 @@ pyecharts
 pyflakes
 PyHive
 pylint
-PyMeeus
 pystan
 python-lsp-server[all]
 pyxdg
