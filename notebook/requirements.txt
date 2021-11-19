@@ -149,7 +149,6 @@ pyflakes
 PyHive
 pylint
 PyMeeus
-PyMySQL
 pystan
 python-lsp-server[all]
 pyxdg
