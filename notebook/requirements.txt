@@ -151,8 +151,6 @@ pylint
 PyMeeus
 PyMySQL
 pystan
-python-jsonrpc-server
-python-language-server
 python-lsp-server[all]
 pyxdg
 QDarkStyle
