@@ -9,6 +9,7 @@ distributed==2021.6.1
 dask-gateway==0.9.0
 dask-ml==2021.10.17
 dask-labextension==5.0.2
+jupyterlab_execute_time
 jupyter-resource-usage
 jupyterlab-system-monitor
 jupyterlab-lsp
