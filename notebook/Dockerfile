@@ -1,4 +1,4 @@
-FROM jupyter/all-spark-notebook:2021-10-07
+FROM jupyter/all-spark-notebook:8e693aad7dcc
 
 MAINTAINER xiaomao23zhi <https://github.com/xiaomao23zhi/>
 
