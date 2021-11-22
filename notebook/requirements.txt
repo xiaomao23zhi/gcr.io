@@ -5,8 +5,8 @@ Keras
 scikit-learn
 category-encoders
 kmodes
-dask==2021.9.1
-distributed==2021.9.1
+dask==2021.6.1
+distributed==2021.6.1
 dask-gateway==0.9.0
 dask-ml==2021.10.17
 dask-labextension==5.0.2
