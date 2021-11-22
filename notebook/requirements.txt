@@ -5,10 +5,8 @@ Keras
 scikit-learn
 category-encoders
 kmodes
-dask==2021.6.0
-distributed==2021.6.0
 dask-gateway
-dask-ml==2021.10.17
+dask-ml
 dask-labextension==5.0.2
 jupyterlab_execute_time
 jupyter-resource-usage
