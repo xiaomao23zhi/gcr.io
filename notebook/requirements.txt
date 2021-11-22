@@ -1,5 +1,6 @@
 tensorflow
 tensorboard
+jupyter-tensorboard
 Keras
 scikit-learn
 category-encoders
