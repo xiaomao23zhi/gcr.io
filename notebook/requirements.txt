@@ -7,7 +7,7 @@ category-encoders
 kmodes
 dask-gateway
 dask-ml
-dask-labextension==5.0.2
+dask-labextension
 jupyterlab_execute_time
 jupyter-resource-usage
 jupyterlab-system-monitor
