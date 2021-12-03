@@ -9,6 +9,7 @@ USER root
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
     graphviz \
+    julia \
     language-pack-zh-hans && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -46,6 +47,9 @@ COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fon
 
 # R packages
 RUN R -e "install.packages(c('igraph','languageserver'), dependencies=TRUE, repos='http://cran.rstudio.com/')"
+
+# iJulia
+RUN julia -e "using Pkg; Pkg.add.(['IJulia'])"
 
 # # Install dask
 # RUN conda create --name dask --clone base && \
