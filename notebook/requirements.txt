@@ -14,3 +14,4 @@ jupyterlab-system-monitor
 jupyterlab-lsp
 python-lsp-server[all]
 xgboost
+optuna
