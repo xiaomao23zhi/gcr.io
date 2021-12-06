@@ -49,8 +49,8 @@ COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fon
 RUN R -e "install.packages(c('igraph','languageserver'), dependencies=TRUE, repos='http://cran.rstudio.com/')"
 
 # iJulia
-RUN julia -e "Pkg.add(\"Nettle\")" && \
-    julia -e "Pkg.add(\"IJulia\")"
+#RUN julia -e "Pkg.add(\"Nettle\")" && \
+#        julia -e "Pkg.add(\"IJulia\")"
 
 # # Install dask
 # RUN conda create --name dask --clone base && \
