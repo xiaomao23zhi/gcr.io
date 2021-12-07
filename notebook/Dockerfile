@@ -13,7 +13,7 @@ RUN apt-get update --yes && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Julia
-ARG julia_version="1.6.3"
+ARG julia_version="1.6.4"
 ENV JULIA_DEPOT_PATH=/opt/julia \
     JULIA_PKGDIR=/opt/julia \
     JULIA_VERSION="${julia_version}"
@@ -62,7 +62,7 @@ RUN pip install --no-cache-dir --requirement /tmp/requirements.txt && \
 # RUN mkdir /home/$NB_USER/.sparkmagic
 # COPY ./sparkmagic-config-$PROFILE.json /home/$NB_USER/.sparkmagic/config.json
 
-# # Install prophet & dask
+# # Install prophet
 # # RUN conda install -c conda-forge fbprophet && \
 # #     conda clean -a
 # RUN mamba install --quiet --yes \
@@ -79,7 +79,6 @@ COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fon
 RUN R -e "install.packages(c('igraph','languageserver'), dependencies=TRUE, repos='http://cran.rstudio.com/')"
 
 # iJulia
-#RUN julia -e "using Pkg; Pkg.add.([\"IJulia\", \"LanguageServer\"])"
 RUN julia -e 'import Pkg; Pkg.update()' && \
     julia -e 'import Pkg; Pkg.add("HDF5")' && \
     julia -e 'using Pkg; Pkg.add.(["IJulia", "LanguageServer"]); pkg"precompile"' && \
@@ -107,5 +106,7 @@ RUN rm -rf ~/.cache/pip ~/.cache/yarn
 # Dask Scheduler & Bokeh ports
 EXPOSE 8787
 EXPOSE 8786
+
+WORKDIR "${HOME}"
 
 USER $NB_UID
