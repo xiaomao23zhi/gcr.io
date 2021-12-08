@@ -87,7 +87,7 @@ RUN julia -e 'import Pkg; Pkg.update()' && \
     mv "${HOME}/.local/share/jupyter/kernels/julia"* "${CONDA_DIR}/share/jupyter/kernels/" && \
     chmod -R go+rx "${CONDA_DIR}/share/jupyter" && \
     rm -rf "${HOME}/.local" && \
-    fix-permissions "${JULIA_PKGDIR}" "${CONDA_DIR}/share/jupyter"
+    fix-permissions "${CONDA_DIR}/share/jupyter"
 
 # # Install dask
 # RUN conda create --name dask --clone base && \
