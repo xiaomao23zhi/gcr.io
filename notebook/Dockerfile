@@ -76,6 +76,10 @@ RUN pip install --no-cache-dir --requirement /tmp/requirements.txt && \
 # Fix font
 COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
 
+# Install elyra
+RUN pip install --upgrade elyra && \
+    jupyter lab build
+
 # R packages
 RUN R -e "install.packages(c('igraph','languageserver'), dependencies=TRUE, repos='http://cran.rstudio.com/')"
 
