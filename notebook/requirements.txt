@@ -15,4 +15,3 @@ jupyterlab-lsp
 python-lsp-server[all]
 xgboost
 optuna
-elyra[all]
