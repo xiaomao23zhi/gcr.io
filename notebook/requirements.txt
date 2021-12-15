@@ -9,10 +9,10 @@ dask-gateway
 dask-ml
 dask-labextension
 jupyterlab_execute_time
-jupyterlab-code-snippets
 jupyter-resource-usage
 jupyterlab-system-monitor
 jupyterlab-lsp
 python-lsp-server[all]
 xgboost
 optuna
+elyra[all]
