@@ -77,7 +77,7 @@ RUN pip install --no-cache-dir --requirement /tmp/requirements.txt && \
 COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
 
 # Install elyra
-RUN pip install --upgrade elyra && \
+RUN pip install --upgrade elyra-pipeline-editor-extension && \
     jupyter lab build
 
 # R packages
