@@ -52,6 +52,7 @@ COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fon
 COPY --chown=${NB_UID}:${NB_GID} user-settings/ /home/jovyan/.jupyter/lab/user-settings/
 COPY ./sparkmagic.sh /usr/local/bin/before-notebook.d/sparkmagic.sh
 
+USER ${NB_USER}
 # Install from requirements.txt file
 COPY --chown=${NB_UID}:${NB_GID} requirements.txt /tmp/
 RUN pip install --no-cache-dir --requirement /tmp/requirements.txt && \
@@ -98,6 +99,7 @@ RUN julia -e 'import Pkg; Pkg.update()' && \
 #     && \
 #     python -m ipykernel install --user --name dask --display-name "Dask"
 
+USER root
 # Install sparkmagic
 RUN jupyter-kernelspec install $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/sparkkernel && \
     jupyter-kernelspec install $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/pysparkkernel && \
