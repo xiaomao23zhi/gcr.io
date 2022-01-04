@@ -119,7 +119,6 @@ RUN rm -rf ~/.cache/pip ~/.cache/yarn
 EXPOSE 8787
 EXPOSE 8786
 
-
 WORKDIR "${HOME}"
 
 USER $NB_UID
