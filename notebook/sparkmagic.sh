@@ -11,7 +11,7 @@ function sparkMagicConf() {
     
 import json
 import os
-with open('${LIVY_CONF}.template', 'r') as template_json:
+with open('${livyConf}.template', 'r') as template_json:
     data = json.loads(template_json.read())
 data['kernel_python_credentials']['url']="$livyServer"
 data['kernel_scala_credentials']['url']="$livyServer"
