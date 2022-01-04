@@ -2,7 +2,8 @@ FROM jupyter/all-spark-notebook:2021-11-10
 
 MAINTAINER xiaomao23zhi <https://github.com/xiaomao23zhi/>
 
-ARG PROFILE=cicd
+# Env
+ENV LIVY_SERVER="http://172.31.201.47:8998"
 
 # Install packages
 USER root
