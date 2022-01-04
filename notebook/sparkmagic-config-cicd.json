@@ -2,20 +2,20 @@
   "kernel_python_credentials" : {
     "username": "",
     "password": "",
-    "url": "http://172.31.201.47:8998",
+    "url": "http://localhost:8998",
     "auth": "None"
   },
 
   "kernel_scala_credentials" : {
     "username": "",
     "password": "",
-    "url": "http://172.31.201.47:8998",
+    "url": "http://localhost:8998",
     "auth": "None"
   },
   "kernel_r_credentials": {
     "username": "",
     "password": "",
-    "url": "http://172.31.201.47:8998"
+    "url": "http://localhost:8998"
   },
 
   "logging_config": {
@@ -56,10 +56,10 @@
 
   "session_configs": {
     "driverCores": 1,
-    "driverMemory": "4G",
+    "driverMemory": 2048,
     "executorCores": 1,
-    "executorMemory": "4G",
-    "numExecutors": 1,
+    "executorMemory": 1024,
+    "numExecutors": 2,
     "conf": {
       "spark.driver.maxResultSize": "4G",
       "spark.kryoserializer.buffer.max": "512m",
