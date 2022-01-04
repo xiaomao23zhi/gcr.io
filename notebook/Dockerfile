@@ -12,7 +12,10 @@ RUN apt-get update --yes && \
     julia \
     language-pack-zh-hans && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
-
+ 
+# Fix font
+COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
+    
 # # Install Julia
 # ARG julia_version="1.6.4"
 # ENV JULIA_DEPOT_PATH=/opt/julia \
@@ -44,24 +47,15 @@ RUN apt-get update --yes && \
 #     chown "${NB_USER}" "${JULIA_PKGDIR}" && \
 #     fix-permissions "${JULIA_PKGDIR}"
 
-USER $NB_UID
-
 # Add user-settings
 COPY --chown=${NB_UID}:${NB_GID} user-settings/ /home/jovyan/.jupyter/lab/user-settings/
+COPY ./sparkmagic.sh /usr/local/bin/before-notebook.d/sparkmagic.sh
 
 # Install from requirements.txt file
 COPY --chown=${NB_UID}:${NB_GID} requirements.txt /tmp/
 RUN pip install --no-cache-dir --requirement /tmp/requirements.txt && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
-
-# # Install sparkmagic
-# RUN jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/sparkkernel && \
-#     jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/pysparkkernel && \
-#     jupyter serverextension enable --py sparkmagic && \
-#     jupyter labextension disable ipyparallel-labextension
-# RUN mkdir /home/$NB_USER/.sparkmagic
-# COPY ./sparkmagic-config-$PROFILE.json /home/$NB_USER/.sparkmagic/config.json
 
 # # Install prophet
 # # RUN conda install -c conda-forge fbprophet && \
@@ -73,12 +67,9 @@ RUN pip install --no-cache-dir --requirement /tmp/requirements.txt && \
 #     fix-permissions "${CONDA_DIR}" && \
 #     fix-permissions "/home/${NB_USER}"
 
-# Fix font
-COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
-
-# Install elyra
-RUN pip install --upgrade elyra-pipeline-editor-extension && \
-    jupyter lab build
+# # Install elyra
+# RUN pip install --upgrade elyra-pipeline-editor-extension && \
+#     jupyter lab build
 
 # R packages
 RUN R -e "install.packages(c('igraph','languageserver'), dependencies=TRUE, repos='http://cran.rstudio.com/')"
@@ -106,11 +97,22 @@ RUN julia -e 'import Pkg; Pkg.update()' && \
 #     && \
 #     python -m ipykernel install --user --name dask --display-name "Dask"
 
+# Install sparkmagic
+RUN jupyter-kernelspec install $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/sparkkernel && \
+    jupyter-kernelspec install $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/pysparkkernel && \
+    jupyter serverextension enable --py sparkmagic && \
+    jupyter labextension disable ipyparallel-labextension
+RUN mkdir /home/$NB_USER/.sparkmagic
+COPY ./config.json.template /home/$NB_USER/.sparkmagic/config.json.template
+
 RUN rm -rf ~/.cache/pip ~/.cache/yarn
 
 # Dask Scheduler & Bokeh ports
 EXPOSE 8787
 EXPOSE 8786
+
+# fix permission
+RUN chmod +x /usr/local/bin/before-notebook.d/sparkmagic.sh
 
 WORKDIR "${HOME}"
 
