@@ -5,8 +5,9 @@ MAINTAINER xiaomao23zhi <https://github.com/xiaomao23zhi/>
 # Env
 ENV LIVY_SERVER="http://172.31.201.47:8998"
 
-# Install packages
 USER root
+
+# Install packages
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
     graphviz \
@@ -48,16 +49,17 @@ COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fon
 #     chown "${NB_USER}" "${JULIA_PKGDIR}" && \
 #     fix-permissions "${JULIA_PKGDIR}"
 
-# Add user-settings
-COPY --chown=${NB_UID}:${NB_GID} user-settings/ /home/jovyan/.jupyter/lab/user-settings/
-COPY ./sparkmagic.sh /usr/local/bin/before-notebook.d/sparkmagic.sh
-
 USER ${NB_USER}
+
 # Install from requirements.txt file
 COPY --chown=${NB_UID}:${NB_GID} requirements.txt /tmp/
 RUN pip install --no-cache-dir --requirement /tmp/requirements.txt && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
+    
+# Add user-settings
+COPY --chown=${NB_UID}:${NB_GID} user-settings/ /home/jovyan/.jupyter/lab/user-settings/
+COPY ./sparkmagic.sh /usr/local/bin/before-notebook.d/sparkmagic.sh
 
 # # Install prophet
 # # RUN conda install -c conda-forge fbprophet && \
@@ -99,10 +101,9 @@ RUN julia -e 'import Pkg; Pkg.update()' && \
 #     && \
 #     python -m ipykernel install --user --name dask --display-name "Dask"
 
-USER root
 # Install sparkmagic
-RUN jupyter-kernelspec install $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/sparkkernel && \
-    jupyter-kernelspec install $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/pysparkkernel && \
+RUN jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/sparkkernel && \
+    jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/pysparkkernel && \
     jupyter serverextension enable --py sparkmagic && \
     jupyter labextension disable ipyparallel-labextension
 RUN mkdir /home/$NB_USER/.sparkmagic
