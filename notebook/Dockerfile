@@ -17,6 +17,10 @@ RUN apt-get update --yes && \
  
 # Fix font
 COPY ./simhei.ttf /opt/conda/lib/python3.8/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
+
+# Before notebook script for sparkmagic
+COPY ./sparkmagic.sh /usr/local/bin/before-notebook.d/sparkmagic.sh
+RUN chmod +x /usr/local/bin/before-notebook.d/sparkmagic.sh
     
 # # Install Julia
 # ARG julia_version="1.6.4"
@@ -59,7 +63,6 @@ RUN pip install --no-cache-dir --requirement /tmp/requirements.txt && \
     
 # Add user-settings
 COPY --chown=${NB_UID}:${NB_GID} user-settings/ /home/jovyan/.jupyter/lab/user-settings/
-COPY ./sparkmagic.sh /usr/local/bin/before-notebook.d/sparkmagic.sh
 
 # # Install prophet
 # # RUN conda install -c conda-forge fbprophet && \
@@ -109,14 +112,13 @@ RUN jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cu
 RUN mkdir /home/$NB_USER/.sparkmagic
 COPY ./config.json.template /home/$NB_USER/.sparkmagic/config.json.template
 
+# clean up
 RUN rm -rf ~/.cache/pip ~/.cache/yarn
 
 # Dask Scheduler & Bokeh ports
 EXPOSE 8787
 EXPOSE 8786
 
-# fix permission
-RUN chmod +x /usr/local/bin/before-notebook.d/sparkmagic.sh
 
 WORKDIR "${HOME}"
 
