@@ -2,6 +2,5 @@ ARG SPARK_IMAGE=gcr.io/spark-operator/spark:v3.1.1
 FROM ${SPARK_IMAGE}
 
 COPY entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
 
-ENTRYPOINT ["/usr/bin/entrypoint.sh"]
+ENTRYPOINT ["/opt/entrypoint.sh"]
