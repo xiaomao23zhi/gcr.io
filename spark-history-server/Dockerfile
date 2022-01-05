@@ -1,5 +1,1 @@
-From gcr.io/spark-operator/spark:v3.1.1-hadoop3
-
-ADD ./entrypoint.sh /opt/entrypoint.sh
-
-ENTRYPOINT ["/opt/entrypoint.sh"]
+From gcr.io/mapr-252711/apache-spark-hs-3.1.1:202108282015
