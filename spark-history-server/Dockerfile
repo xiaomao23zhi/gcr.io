@@ -3,4 +3,4 @@ FROM ${SPARK_IMAGE}
 
 COPY entrypoint.sh /usr/bin/
 
-ENTRYPOINT ["/opt/entrypoint.sh"]
+ENTRYPOINT ["/usr/bin/entrypoint.sh"]
