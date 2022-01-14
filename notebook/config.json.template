@@ -68,7 +68,7 @@
       "spark.executor.extraJavaOptions": "-XX:ThreadStackSize=20m -Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8",
       "spark.driver.extraJavaOptions": "-XX:ThreadStackSize=20m -Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8",
       "spark.extraListeners": "sparkmonitor.listener.JupyterSparkMonitorListener",
-      "spark.driver.extraClassPath", "/opt/conda/lib/python3.9/site-packages/sparkmonitor/listener.jar"
+      "spark.driver.extraClassPath": "/opt/conda/lib/python3.9/site-packages/sparkmonitor/listener.jar"
     }
   },
 
