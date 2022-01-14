@@ -109,6 +109,12 @@ RUN jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cu
 RUN mkdir /home/$NB_USER/.sparkmagic
 COPY ./config.json.template /home/$NB_USER/.sparkmagic/config.json.template
 
+# Install sparkmonitor
+RUN jupyter nbextension install sparkmonitor --py --user && \
+    jupyter nbextension enable  sparkmonitor --py --user && \
+    jupyter serverextension enable --py --system sparkmonitor && \
+    jupyter lab build
+
 # clean up
 RUN rm -rf ~/.cache/pip ~/.cache/yarn
 
