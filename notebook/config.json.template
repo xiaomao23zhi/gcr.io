@@ -56,9 +56,9 @@
 
   "session_configs": {
     "driverCores": 1,
-    "driverMemory": 2048,
+    "driverMemory": "2048m",
     "executorCores": 1,
-    "executorMemory": 1024,
+    "executorMemory": "1024m",
     "numExecutors": 2,
     "conf": {
       "spark.driver.maxResultSize": "4G",
