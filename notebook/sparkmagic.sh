@@ -17,8 +17,6 @@ data['kernel_python_credentials']['url']="$livyServer"
 data['kernel_scala_credentials']['url']="$livyServer"
 data['kernel_r_credentials']['url']="$livyServer"
 
-data['session_configs']['spark.extraListeners']="sparkmonitor.listener.JupyterSparkMonitorListener"
-
 print(json.dumps(data))
 =EOM
 }
