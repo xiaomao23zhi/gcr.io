@@ -16,4 +16,4 @@ python-lsp-server[all]
 xgboost
 optuna
 sparkmagic
-sparkmonitor
+jupyterlab-sparkmonitor
