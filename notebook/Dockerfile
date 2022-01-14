@@ -110,9 +110,7 @@ RUN mkdir /home/$NB_USER/.sparkmagic
 COPY ./config.json.template /home/$NB_USER/.sparkmagic/config.json.template
 
 # Install sparkmonitor
-RUN jupyter nbextension install sparkmonitor --py --user && \
-    jupyter nbextension enable  sparkmonitor --py --user && \
-    jupyter lab build
+ENV IPYTHONDIR=.ipython
 
 # clean up
 RUN rm -rf ~/.cache/pip ~/.cache/yarn
