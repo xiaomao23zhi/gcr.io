@@ -1,6 +1,5 @@
 tensorflow==2.5.2
 tensorboard==2.5.0
-jupyter-tensorboard==0.2.0
 Keras
 scikit-learn
 category-encoders
