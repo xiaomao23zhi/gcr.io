@@ -1,6 +1,6 @@
-tensorflow
-tensorboard
-jupyter-tensorboard
+tensorflow==2.1.1
+tensorboard==2.1.1
+jupyter-tensorboard==0.2.0
 Keras
 scikit-learn
 category-encoders
@@ -15,5 +15,3 @@ jupyterlab-lsp
 python-lsp-server[all]
 xgboost
 optuna
-sparkmagic
-jupyterlab-sparkmonitor
