@@ -112,8 +112,9 @@ RUN julia -e 'import Pkg; Pkg.update()' && \
 # # Install sparkmonitor
 # ENV IPYTHONDIR=.ipython
 
-# Install labextension
-RUN jupyter labextension install jupyterlab_tensorboard
+# Install tensorboard
+RUN pip install git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
+    pip install git+https://github.com/chaoleili/jupyterlab_tensorboard.git
 
 # clean up
 RUN rm -rf ~/.cache/pip ~/.cache/yarn
