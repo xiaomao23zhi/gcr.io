@@ -101,16 +101,19 @@ RUN julia -e 'import Pkg; Pkg.update()' && \
 #     && \
 #     python -m ipykernel install --user --name dask --display-name "Dask"
 
-# Install sparkmagic
-RUN jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/sparkkernel && \
-    jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/pysparkkernel && \
-    jupyter serverextension enable --py sparkmagic && \
-    jupyter labextension disable ipyparallel-labextension
-RUN mkdir /home/$NB_USER/.sparkmagic
-COPY ./config.json.template /home/$NB_USER/.sparkmagic/config.json.template
+# # Install sparkmagic
+# RUN jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/sparkkernel && \
+#     jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/pysparkkernel && \
+#     jupyter serverextension enable --py sparkmagic && \
+#     jupyter labextension disable ipyparallel-labextension
+# RUN mkdir /home/$NB_USER/.sparkmagic
+# COPY ./config.json.template /home/$NB_USER/.sparkmagic/config.json.template
 
-# Install sparkmonitor
-ENV IPYTHONDIR=.ipython
+# # Install sparkmonitor
+# ENV IPYTHONDIR=.ipython
+
+# Install labextension
+RUN jupyter labextension install jupyterlab_tensorboard
 
 # clean up
 RUN rm -rf ~/.cache/pip ~/.cache/yarn
