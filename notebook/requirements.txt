@@ -11,6 +11,7 @@ jupyterlab_execute_time
 jupyter-resource-usage
 jupyterlab-system-monitor
 jupyterlab-lsp
+jupyterlab-nvdashboard
 python-lsp-server[all]
 xgboost
 optuna
