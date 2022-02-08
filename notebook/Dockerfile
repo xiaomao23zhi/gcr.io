@@ -61,6 +61,10 @@ RUN pip install --no-cache-dir --requirement /tmp/requirements.txt && \
 # Add user-settings
 COPY --chown=${NB_UID}:${NB_GID} user-settings/ /home/jovyan/.jupyter/lab/user-settings/
 
+# Install pytorch CPU
+RUN conda install pytorch torchvision torchaudio cpuonly -c pytorch && \
+    conda clean -a
+
 # # Install prophet
 # # RUN conda install -c conda-forge fbprophet && \
 # #     conda clean -a
