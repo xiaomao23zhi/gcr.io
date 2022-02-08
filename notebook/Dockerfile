@@ -13,7 +13,7 @@ RUN apt-get update --yes && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
  
 # Fix font
-COPY ./simhei.ttf /opt/conda/lib/python3.9/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
+COPY --chown=${NB_UID}:${NB_GID} ./simhei.ttf /opt/conda/lib/python3.9/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
 
 # Before notebook script for sparkmagic
 COPY ./sparkmagic.sh /usr/local/bin/before-notebook.d/sparkmagic.sh
