@@ -13,5 +13,6 @@ jupyterlab-system-monitor
 jupyterlab-lsp
 jupyterlab-nvdashboard
 python-lsp-server[all]
+papermill
 xgboost
 optuna
