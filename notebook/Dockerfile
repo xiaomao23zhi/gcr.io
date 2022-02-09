@@ -52,18 +52,43 @@ RUN chmod +x /usr/local/bin/before-notebook.d/sparkmagic.sh
 
 USER ${NB_USER}
 
-# Install from requirements.txt file
-COPY --chown=${NB_UID}:${NB_GID} requirements.txt /tmp/
-RUN pip install --no-cache-dir --requirement /tmp/requirements.txt && \
-    fix-permissions "${CONDA_DIR}" && \
-    fix-permissions "/home/${NB_USER}"
-    
 # Add user-settings
 COPY --chown=${NB_UID}:${NB_GID} user-settings/ /home/jovyan/.jupyter/lab/user-settings/
 
+# Install from requirements.txt file
+#COPY --chown=${NB_UID}:${NB_GID} requirements.txt /tmp/
+#RUN pip install --no-cache-dir --requirement /tmp/requirements.txt && \
+
+# Python packages
+RUN pip install --no-cache-dir \
+    tensorflow \
+    tensorboard \
+    Keras \
+    scikit-learn \
+    category-encoders \
+    kmodes \
+    dask-gateway \
+    dask-ml \
+    dask-labextension \
+    jupyterlab_execute_time \
+    jupyter-resource-usage \
+    jupyterlab-system-monitor \
+    jupyterlab-lsp \
+    jupyterlab-nvdashboard \
+    python-lsp-server[all] \
+    papermill \
+    xgboost && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
+
 # Install pytorch CPU
-RUN conda install pytorch torchvision torchaudio cpuonly -c pytorch && \
-    conda clean -a
+RUN conda install \
+    pytorch \
+    torchvision \
+    torchaudio \
+    cpuonly \
+    -c pytorch && \
+    conda clean --all -f -y
 
 # # Install prophet
 # # RUN conda install -c conda-forge fbprophet && \
@@ -120,8 +145,8 @@ COPY ./config.json.template /home/$NB_USER/.sparkmagic/config.json.template
 # ENV IPYTHONDIR=.ipython
 
 # Install tensorboard
-RUN pip install git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
-    pip install git+https://github.com/chaoleili/jupyterlab_tensorboard.git
+RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
+    pip install --no-cache-dir git+https://github.com/chaoleili/jupyterlab_tensorboard.git
 
 # clean up
 RUN rm -rf ~/.cache/pip ~/.cache/yarn
