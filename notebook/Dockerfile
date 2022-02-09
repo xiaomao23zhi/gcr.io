@@ -139,7 +139,9 @@ RUN pip install --no-cache-dir sparkmagic && \
     jupyter serverextension enable --py sparkmagic && \
     jupyter labextension disable ipyparallel-labextension
 RUN mkdir /home/$NB_USER/.sparkmagic
+
 COPY ./config.json.template /home/$NB_USER/.sparkmagic/config.json.template
+COPY ./spark-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/sparkkernel/logo-64x64.png
 
 # # Install sparkmonitor
 # ENV IPYTHONDIR=.ipython
