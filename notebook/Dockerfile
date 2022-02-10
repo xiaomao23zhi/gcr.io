@@ -9,7 +9,8 @@ RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
     graphviz \
     julia \
-    language-pack-zh-hans && \
+    language-pack-zh-hans \
+    nvidia-cuda-toolkit && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
  
 # Fix font
