@@ -16,7 +16,8 @@ RUN apt-get update --yes && \
 COPY --chown=${NB_UID}:${NB_GID} ./simhei.ttf /opt/conda/lib/python3.9/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
 
 # Before notebook script for sparkmagic
-COPY ./sparkmagic.sh /usr/local/bin/before-notebook.d/sparkmagic.sh
+#COPY ./sparkmagic.sh /usr/local/bin/before-notebook.d/sparkmagic.sh
+COPY ./sparkmagic.sh /usr/local/bin/start-notebook.d/sparkmagic.sh
 RUN chmod +x /usr/local/bin/before-notebook.d/sparkmagic.sh
     
 # # Install Julia
@@ -133,9 +134,6 @@ RUN mkdir /home/$NB_USER/.sparkmagic
 
 COPY ./config.json.template /home/$NB_USER/.sparkmagic/config.json.template
 COPY ./spark-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/sparkkernel/logo-64x64.png
-
-# # Install sparkmonitor
-# ENV IPYTHONDIR=.ipython
 
 # Install tensorboard
 RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
