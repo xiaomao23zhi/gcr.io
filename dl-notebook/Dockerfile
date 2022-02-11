@@ -1,0 +1,69 @@
+FROM jupyter/tensorflow-notebook:2021-11-10
+
+MAINTAINER xiaomao23zhi <https://github.com/xiaomao23zhi/>
+
+USER root
+
+# Install packages
+RUN apt-get update --yes && \
+    apt-get install --yes --no-install-recommends \
+    graphviz \
+    julia \
+    gnupg \
+    software-properties-common \
+    language-pack-zh-hans && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+ 
+# Fix font
+COPY --chown=${NB_UID}:${NB_GID} ./simhei.ttf /opt/conda/lib/python3.9/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
+
+# Install CUDA
+RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin && \
+    mv cuda-ubuntu2004.pin /etc/apt/preferences.d/cuda-repository-pin-600 && \
+    apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/7fa2af80.pub && \
+    add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /" && \
+    apt-get update && \
+    apt-get -y install cuda && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+USER ${NB_USER}
+
+# Add user-settings
+COPY --chown=${NB_UID}:${NB_GID} user-settings/ /home/jovyan/.jupyter/lab/user-settings/
+
+# Python packages
+RUN pip install --no-cache-dir \
+    jupyterlab_execute_time \
+    jupyter-resource-usage \
+    jupyterlab-system-monitor \
+    jupyterlab-lsp \
+    jupyterlab-nvdashboard \
+    python-lsp-server[all] \
+    papermill \
+    xgboost && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
+
+# Install pytorch
+RUN conda install \
+    pytorch \
+    torchvision \
+    torchaudio \
+    cudatoolkit=10.1 \
+    -c pytorch && \
+    conda clean --all -f -y
+
+# Install tensorboard
+RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
+    pip install --no-cache-dir git+https://github.com/chaoleili/jupyterlab_tensorboard.git
+
+# clean up
+RUN rm -rf ~/.cache/pip ~/.cache/yarn
+
+# Dask Scheduler & Bokeh ports
+EXPOSE 8787
+EXPOSE 8786
+
+WORKDIR "${HOME}"
+
+USER $NB_UID
