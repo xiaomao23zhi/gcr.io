@@ -2,6 +2,8 @@ FROM jupyter/tensorflow-notebook:2021-11-10
 
 MAINTAINER xiaomao23zhi <https://github.com/xiaomao23zhi/>
 
+ARG CUDA_DEB=cuda-repo-ubuntu1804-10-1-local-10.1.105-418.39_1.0-1_amd64.deb
+
 USER root
 
 # Install packages
@@ -18,12 +20,12 @@ COPY --chown=${NB_UID}:${NB_GID} ./simhei.ttf /opt/conda/lib/python3.9/site-pack
 
 # Install CUDA
 WORKDIR /tmp
-RUN wget https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/cuda-repo-ubuntu1804-10-1-local-10.1.105-418.39_1.0-1_amd64.deb && \
-    dpkg -i cuda-repo-ubuntu1804-10-1-local-10.1.105-418.39_1.0-1_amd64.deb && \
+RUN wget https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/${CUDA_DEB} && \
+    dpkg -i ${CUDA_DEB} && \
     apt-key add /var/cuda-repo-10-1-local-10.1.105-418.39/7fa2af80.pub && \
     apt-get update && \
     apt-get -y install cuda-libraries-10-1 && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+    apt-get clean && rm -rf /var/lib/apt/lists/* && rm -rf ${CUDA_DEB}
 
 USER ${NB_USER}
 
