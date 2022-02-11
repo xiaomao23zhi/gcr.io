@@ -20,14 +20,12 @@ COPY --chown=${NB_UID}:${NB_GID} ./simhei.ttf /opt/conda/lib/python3.9/site-pack
 
 # Install CUDA
 WORKDIR /tmp
-RUN wget https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/${CUDA_DEB} && \
+RUN wget --quiet https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/${CUDA_DEB} && \
     dpkg -i ${CUDA_DEB} && \
     apt-key add /var/cuda-repo-10-1-local-10.1.105-418.39/7fa2af80.pub && \
     apt-get update && \
     apt-get -y install cuda-libraries-10-1 && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && rm -rf ${CUDA_DEB}
-
-USER ${NB_USER}
 
 # Add user-settings
 COPY --chown=${NB_UID}:${NB_GID} user-settings/ /home/jovyan/.jupyter/lab/user-settings/
@@ -75,4 +73,4 @@ EXPOSE 8786
 
 WORKDIR "${HOME}"
 
-USER $NB_UID
+USER ${NB_USER}
