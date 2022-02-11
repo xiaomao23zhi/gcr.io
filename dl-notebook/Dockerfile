@@ -26,6 +26,11 @@ RUN wget --quiet https://developer.nvidia.com/compute/cuda/10.1/Prod/local_insta
     apt-get update && \
     apt-get -y install cuda-libraries-10-1 && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && rm -rf ${CUDA_DEB}
+    
+# Fix gnupg
+RUN chown -R ${NB_UID}:${NB_GID} ~/.gnupg
+
+USER ${NB_USER}
 
 # Add user-settings
 COPY --chown=${NB_UID}:${NB_GID} user-settings/ /home/jovyan/.jupyter/lab/user-settings/
