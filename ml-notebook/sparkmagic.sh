@@ -23,7 +23,3 @@ print(json.dumps(data))
 
 # Main
 sparkMagicConf > $livyConf
-
-# set up ipython profile and add sparkmonitor kernel extension to it
-ipython profile create --ipython-dir=.ipython
-echo "c.InteractiveShellApp.extensions.append('sparkmonitor.kernelextension')" >>  .ipython/profile_default/ipython_config.py
