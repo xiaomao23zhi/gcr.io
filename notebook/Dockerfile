@@ -134,7 +134,7 @@ RUN pip install --no-cache-dir sparkmagic && \
 RUN mkdir /home/$NB_USER/.sparkmagic
 
 COPY ./config.json.template /home/$NB_USER/.sparkmagic/config.json.template
-COPY ./spark-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/sparkkernel/logo-64x64.png
+COPY ./logo/spark-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/sparkkernel/logo-64x64.png
 
 # Install tensorboard
 RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
