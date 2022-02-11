@@ -9,8 +9,7 @@ RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
     graphviz \
     julia \
-    gnupg \
-    software-properties-common \
+    gnupg2 \
     language-pack-zh-hans && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
  
@@ -18,12 +17,12 @@ RUN apt-get update --yes && \
 COPY --chown=${NB_UID}:${NB_GID} ./simhei.ttf /opt/conda/lib/python3.9/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
 
 # Install CUDA
-RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin && \
-    mv cuda-ubuntu2004.pin /etc/apt/preferences.d/cuda-repository-pin-600 && \
-    apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/7fa2af80.pub && \
-    add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /" && \
+WORKDIR /tmp
+RUN wget https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/cuda-repo-ubuntu1804-10-1-local-10.1.105-418.39_1.0-1_amd64.deb && \
+    dpkg -i cuda-repo-ubuntu1804-10-1-local-10.1.105-418.39_1.0-1_amd64.deb && \
+    apt-key add /var/cuda-repo-10-1-local-10.1.105-418.39/7fa2af80.pub && \
     apt-get update && \
-    apt-get -y install cuda && \
+    apt-get -y install cuda-libraries-10-1 && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 USER ${NB_USER}
@@ -41,6 +40,14 @@ RUN pip install --no-cache-dir \
     python-lsp-server[all] \
     papermill \
     xgboost && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
+
+# Install tensorflow
+RUN pip install --no-cache-dir \
+    keras \
+    tensorflow \
+    tensorflow-gpu && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
 
