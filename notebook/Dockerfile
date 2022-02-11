@@ -139,6 +139,15 @@ COPY ./logo/spark-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/spark
 # Install tensorboard
 RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
     pip install --no-cache-dir git+https://github.com/chaoleili/jupyterlab_tensorboard.git
+    
+# Install pytorch
+RUN conda install \
+    pytorch \
+    torchvision \
+    torchaudio \
+    cudatoolkit=10.1 \
+    -c pytorch && \
+    conda clean --all -f -y
 
 # clean up
 RUN rm -rf ~/.cache/pip ~/.cache/yarn
