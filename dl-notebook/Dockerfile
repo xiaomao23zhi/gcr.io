@@ -27,7 +27,7 @@ RUN wget --quiet http://developer.download.nvidia.com/compute/cuda/11.0.2/local_
     apt-get update && \
     apt-get -y install cuda-toolkit-11-0 && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && rm -rf ${CUDA_DEB}
-ENV PATH=/usr/local/cuda-10.1/bin${PATH:+:${PATH}}
+ENV PATH=/usr/local/cuda-11.0/bin${PATH:+:${PATH}}
     
 # Fix gnupg
 RUN chown -R ${NB_UID}:${NB_GID} ~/.gnupg
