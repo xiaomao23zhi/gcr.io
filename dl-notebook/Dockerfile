@@ -24,7 +24,7 @@ RUN wget --quiet https://developer.nvidia.com/compute/cuda/10.1/Prod/local_insta
     dpkg -i ${CUDA_DEB} && \
     apt-key add /var/cuda-repo-10-1-local-10.1.105-418.39/7fa2af80.pub && \
     apt-get update && \
-    apt-get -y install cuda-10-1 && \
+    apt-get -y install cuda-runtime-10-1 && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && rm -rf ${CUDA_DEB}
     
 # Fix gnupg
