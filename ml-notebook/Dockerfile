@@ -63,9 +63,6 @@ COPY --chown=${NB_UID}:${NB_GID} user-settings/ /home/jovyan/.jupyter/lab/user-s
 
 # Python packages
 RUN pip install --no-cache-dir \
-    tensorflow \
-    tensorboard \
-    Keras \
     scikit-learn \
     category-encoders \
     kmodes \
@@ -119,19 +116,35 @@ RUN mkdir /home/$NB_USER/.sparkmagic
 COPY ./config.json.template /home/$NB_USER/.sparkmagic/config.json.template
 COPY ./logo/spark-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/sparkkernel/logo-64x64.png
 
-# Install tensorboard
-RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
-    pip install --no-cache-dir git+https://github.com/chaoleili/jupyterlab_tensorboard.git
-
 # Install Dask
 RUN conda create --name dask && \
     source activate dask
-RUN pip install --ignore-installed llvmlite \
+RUN pip install --no-cache-dir \
     dask-gateway \
     dask-ml \
     dask-labextension \
     && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}" && \
     python -m ipykernel install --user --name dask --display-name "Dask"
+COPY ./logo/dask-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/dask/logo-64x64.png
+
+# Install Tensorflow
+RUN conda create --name tensorflow && \
+    source activate tensorflow
+RUN pip install --no-cache-dir \
+    tensorflow \
+    tensorboard \
+    Keras \
+    && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}" && \
+    python -m ipykernel install --user --name tensorflow --display-name "Tensorflow"
+COPY ./logo/tensorflow-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/tensorflow/logo-64x64.png
+
+# Install tensorboard
+RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
+    pip install --no-cache-dir git+https://github.com/chaoleili/jupyterlab_tensorboard.git
     
 # Install PyTorch
 RUN conda create --name pytorch && \
@@ -145,6 +158,7 @@ RUN conda install \
     conda clean --all -f -y \
     && \
     python -m ipykernel install --user --name pytorch --display-name "PyTorch"
+COPY ./logo/pytorch-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/pytorch/logo-64x64.png
 
 # clean up
 RUN rm -rf ~/.cache/pip ~/.cache/yarn
