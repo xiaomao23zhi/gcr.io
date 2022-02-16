@@ -69,14 +69,10 @@ RUN pip install --no-cache-dir \
     scikit-learn \
     category-encoders \
     kmodes \
-    dask-gateway \
-    dask-ml \
-    dask-labextension \
-    jupyterlab_execute_time \
     jupyter-resource-usage \
+    jupyterlab_execute_time \
     jupyterlab-system-monitor \
     jupyterlab-lsp \
-    jupyterlab-nvdashboard \
     python-lsp-server[all] \
     papermill \
     xgboost && \
@@ -110,19 +106,6 @@ RUN julia -e 'import Pkg; Pkg.update()' && \
     rm -rf "${HOME}/.local" && \
     fix-permissions "${CONDA_DIR}/share/jupyter"
 
-# # Install dask
-# RUN conda create --name dask --clone base && \
-#     source activate dask
-# RUN pip install --ignore-installed llvmlite \
-#     nbconvert==5.6.1 \
-#     dask==2021.9.1 \
-#     distributed==2021.6.0 \
-#     dask-gateway==0.9.0 \
-#     dask-ml \
-#     msgpack==1.0.2 \
-#     && \
-#     python -m ipykernel install --user --name dask --display-name "Dask"
-
 # Install sparkmagic
 RUN pip install --no-cache-dir sparkmagic && \
     fix-permissions "${CONDA_DIR}" && \
@@ -139,15 +122,29 @@ COPY ./logo/spark-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/spark
 # Install tensorboard
 RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
     pip install --no-cache-dir git+https://github.com/chaoleili/jupyterlab_tensorboard.git
+
+# Install Dask
+RUN conda create --name dask && \
+    source activate dask
+RUN pip install --ignore-installed llvmlite \
+    dask-gateway \
+    dask-ml \
+    dask-labextension \
+    && \
+    python -m ipykernel install --user --name dask --display-name "Dask"
     
-# Install pytorch
+# Install PyTorch
+RUN conda create --name pytorch && \
+    source activate pytorch
 RUN conda install \
     pytorch \
     torchvision \
     torchaudio \
     cudatoolkit=10.1 \
     -c pytorch && \
-    conda clean --all -f -y
+    conda clean --all -f -y \
+    && \
+    python -m ipykernel install --user --name pytorch --display-name "PyTorch"
 
 # clean up
 RUN rm -rf ~/.cache/pip ~/.cache/yarn
