@@ -63,7 +63,7 @@ RUN conda install \
     pytorch \
     torchvision \
     torchaudio \
-    cudatoolkit=10.1 \
+    cudatoolkit=11.0 \
     -c pytorch && \
     conda clean --all -f -y
 
