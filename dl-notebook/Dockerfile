@@ -26,6 +26,7 @@ RUN wget --quiet https://developer.nvidia.com/compute/cuda/10.1/Prod/local_insta
     apt-get update && \
     apt-get -y install cuda-runtime-10-1 && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && rm -rf ${CUDA_DEB}
+ENV PATH=/usr/local/cuda-10.1/bin${PATH:+:${PATH}}
     
 # Fix gnupg
 RUN chown -R ${NB_UID}:${NB_GID} ~/.gnupg
