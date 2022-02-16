@@ -58,14 +58,14 @@ RUN pip install --no-cache-dir \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
 
-# Install pytorch
-RUN conda install \
-    pytorch \
-    torchvision \
-    torchaudio \
-    cudatoolkit=11.0 \
-    -c pytorch && \
-    conda clean --all -f -y
+# # Install pytorch
+# RUN conda install \
+#     pytorch \
+#     torchvision \
+#     torchaudio \
+#     cudatoolkit=11.0 \
+#     -c pytorch && \
+#     conda clean --all -f -y
 
 # Install tensorboard
 RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
@@ -73,10 +73,6 @@ RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tenso
 
 # clean up
 RUN rm -rf ~/.cache/pip ~/.cache/yarn
-
-# Dask Scheduler & Bokeh ports
-EXPOSE 8787
-EXPOSE 8786
 
 WORKDIR "${HOME}"
 
