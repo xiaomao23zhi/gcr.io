@@ -25,7 +25,10 @@ RUN wget --quiet http://developer.download.nvidia.com/compute/cuda/11.0.2/local_
     dpkg -i ${CUDA_DEB} && \
     apt-key add /var/cuda-repo-ubuntu2004-11-0-local/7fa2af80.pub && \
     apt-get update && \
-    apt-get -y install cuda-toolkit-11-0 && \
+    apt-get install --yes --no-install-recommends \
+    cuda-toolkit-11-0 \
+    cuda-compat-11-0 \
+    && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && rm -rf ${CUDA_DEB}
 ENV PATH=/usr/local/cuda-11.0/bin${PATH:+:${PATH}}
     
@@ -46,17 +49,17 @@ RUN pip install --no-cache-dir \
     jupyterlab-nvdashboard \
     python-lsp-server[all] \
     papermill \
-    xgboost && \
+    && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
 
-# Install tensorflow
-RUN pip install --no-cache-dir \
-    keras \
-    tensorflow \
-    tensorflow-gpu && \
-    fix-permissions "${CONDA_DIR}" && \
-    fix-permissions "/home/${NB_USER}"
+# # Install tensorflow
+# RUN pip install --no-cache-dir \
+#     keras \
+#     tensorflow \
+#     tensorflow-gpu && \
+#     fix-permissions "${CONDA_DIR}" && \
+#     fix-permissions "/home/${NB_USER}"
 
 # # Install pytorch
 # RUN conda install \
@@ -67,9 +70,9 @@ RUN pip install --no-cache-dir \
 #     -c pytorch && \
 #     conda clean --all -f -y
 
-# Install tensorboard
-RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
-    pip install --no-cache-dir git+https://github.com/chaoleili/jupyterlab_tensorboard.git
+# # Install tensorboard
+# RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
+#     pip install --no-cache-dir git+https://github.com/chaoleili/jupyterlab_tensorboard.git
 
 # clean up
 RUN rm -rf ~/.cache/pip ~/.cache/yarn
