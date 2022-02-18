@@ -55,8 +55,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-mark hold libcudnn7 && \
     rm -rf /var/lib/apt/lists/*
     
-# Fix gnupg
-RUN chown -R ${NB_UID}:${NB_GID} ~/.gnupg
+## Fix gnupg
+#RUN chown -R ${NB_UID}:${NB_GID} ~/.gnupg
 
 USER ${NB_USER}
 
