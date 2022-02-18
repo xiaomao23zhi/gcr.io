@@ -20,16 +20,25 @@ COPY --chown=${NB_UID}:${NB_GID} ./simhei.ttf /opt/conda/lib/python3.9/site-pack
 
 # Install CUDA
 WORKDIR /tmp
-RUN wget --quiet https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/${CUDA_DEB} && \
-    dpkg -i ${CUDA_DEB} && \
-    apt-key add /var/cuda-repo-10-1-local-10.1.105-418.39/7fa2af80.pub && \
-    apt-get update && \
-    apt-get install --yes --no-install-recommends \
-    cuda-toolkit-10-1 \
-    cuda-compat-10-1 \
-    && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* && rm -rf ${CUDA_DEB}
-ENV PATH=/usr/local/cuda-10.1/bin${PATH:+:${PATH}}
+RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 curl ca-certificates && \
+    curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub | apt-key add - && \
+    echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/cuda.list && \
+    echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list && \
+    apt-get purge --autoremove -y curl && \
+    rm -rf /var/lib/apt/lists/*
+
+ENV CUDA_VERSION 10.1.105 \
+    CUDA_PKG_VERSION 10-1=$CUDA_VERSION-1
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        cuda-toolkit-$CUDA_PKG_VERSION \
+        cuda-compat-10-1=418.39-1 && \
+    ln -s cuda-10.1 /usr/local/cuda && \
+    rm -rf /var/lib/apt/lists/*
+
+# nvidia-container-runtime
+ENV PATH=/usr/local/cuda-10.1/bin${PATH:+:${PATH}} \
+    NVIDIA_DRIVER_CAPABILITIES=compute,utility \
+    NVIDIA_REQUIRE_CUDA="cuda>=10.1 brand=tesla,driver>=418,driver<419"
     
 # Fix gnupg
 RUN chown -R ${NB_UID}:${NB_GID} ~/.gnupg
@@ -52,26 +61,37 @@ RUN pip install --no-cache-dir \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
 
-# # Install tensorflow
-# RUN pip install --no-cache-dir \
-#     keras \
-#     tensorflow \
-#     tensorflow-gpu && \
-#     fix-permissions "${CONDA_DIR}" && \
-#     fix-permissions "/home/${NB_USER}"
+# Install tensorflow
+RUN conda create --name tensorflow && \
+    source activate tensorflow \
+RUN pip install --no-cache-dir \
+    keras \
+    tensorflow \
+    tensorflow-gpu \
+    && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}" && \
+    python -m ipykernel install --user --name tensorflow --display-name "Tensorflow" \
+COPY ./logo/tensorflow-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/tensorflow/logo-64x64.png
 
-# # Install pytorch
-# RUN conda install \
-#     pytorch \
-#     torchvision \
-#     torchaudio \
-#     cudatoolkit=11.0 \
-#     -c pytorch && \
-#     conda clean --all -f -y
+# Install pytorch
+RUN conda create --name pytorch && \
+    source activate pytorch \
+RUN conda install \
+    pytorch \
+    torchvision \
+    torchaudio \
+    cudatoolkit=11.0 \
+    -c pytorch && \
+    conda clean --all -f -y && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}" && \
+    python -m ipykernel install --user --name pytorch --display-name "PyTorch" \
+COPY ./logo/pytorch-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/pytorch/logo-64x64.png
 
-# # Install tensorboard
-# RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
-#     pip install --no-cache-dir git+https://github.com/chaoleili/jupyterlab_tensorboard.git
+# Install tensorboard
+RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
+    pip install --no-cache-dir git+https://github.com/chaoleili/jupyterlab_tensorboard.git
 
 # clean up
 RUN rm -rf ~/.cache/pip ~/.cache/yarn
