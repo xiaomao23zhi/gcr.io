@@ -28,10 +28,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 curl ca-
     rm -rf /var/lib/apt/lists/*
 
 ENV CUDA_VERSION 10.1.105 \
-    CUDA_PKG_VERSION 10-1=$CUDA_VERSION-1
+    CUDA_PKG_VERSION 10-1=$CUDA_VERSION-1 \
+    CUDNN_VERSION 7.5.0.56
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        cuda-toolkit-$CUDA_PKG_VERSION \
-        cuda-compat-10-1=418.39-1 && \
+        cuda-cudart-$CUDA_PKG_VERSION \
+        cuda-compat-10-1=418.39-1 \
+        cuda-libraries-$CUDA_PKG_VERSION \
+        cuda-nvtx-$CUDA_PKG_VERSION \
+        libnccl2=$NCCL_VERSION-1+cuda10.1 \
+        && \
+    apt-mark hold libnccl2 && \
     ln -s cuda-10.1 /usr/local/cuda && \
     rm -rf /var/lib/apt/lists/*
 
@@ -39,6 +45,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 ENV PATH=/usr/local/cuda-10.1/bin${PATH:+:${PATH}} \
     NVIDIA_DRIVER_CAPABILITIES=compute,utility \
     NVIDIA_REQUIRE_CUDA="cuda>=10.1 brand=tesla,driver>=418,driver<419"
+
+# Install cuDNN
+LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
+RUN apt-get update && apt-get install -y --no-install-recommends \
+            libcudnn7=$CUDNN_VERSION-1+cuda10.1 && \
+    apt-mark hold libcudnn7 && \
+    rm -rf /var/lib/apt/lists/*
     
 # Fix gnupg
 RUN chown -R ${NB_UID}:${NB_GID} ~/.gnupg
