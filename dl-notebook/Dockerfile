@@ -78,7 +78,7 @@ RUN pip install --no-cache-dir \
 
 # Install tensorflow
 RUN conda create --name tensorflow && \
-    source activate tensorflow \
+    source activate tensorflow
 RUN pip install --no-cache-dir \
     keras \
     tensorflow \
@@ -91,7 +91,7 @@ COPY ./logo/tensorflow-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/
 
 # Install pytorch
 RUN conda create --name pytorch && \
-    source activate pytorch \
+    source activate pytorch
 RUN conda install \
     pytorch \
     torchvision \
