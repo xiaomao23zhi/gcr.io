@@ -29,6 +29,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 curl ca-
 
 ENV CUDA_VERSION 10.1.105
 ENV CUDA_PKG_VERSION 10-1
+ENV NCCL_VERSION 2.4.2
 ENV CUDNN_VERSION 7.5.0.56
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
