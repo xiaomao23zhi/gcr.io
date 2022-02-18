@@ -96,7 +96,7 @@ RUN conda install \
     pytorch \
     torchvision \
     torchaudio \
-    cudatoolkit=11.0 \
+    cudatoolkit=10.1 \
     -c pytorch && \
     conda clean --all -f -y && \
     fix-permissions "${CONDA_DIR}" && \
