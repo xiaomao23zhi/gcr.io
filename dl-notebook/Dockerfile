@@ -86,7 +86,7 @@ RUN pip install --no-cache-dir \
     && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}" && \
-    python -m ipykernel install --user --name tensorflow --display-name "Tensorflow" \
+    python -m ipykernel install --user --name tensorflow --display-name "Tensorflow"
 COPY ./logo/tensorflow-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/tensorflow/logo-64x64.png
 
 # Install pytorch
@@ -101,7 +101,7 @@ RUN conda install \
     conda clean --all -f -y && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}" && \
-    python -m ipykernel install --user --name pytorch --display-name "PyTorch" \
+    python -m ipykernel install --user --name pytorch --display-name "PyTorch"
 COPY ./logo/pytorch-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/pytorch/logo-64x64.png
 
 # Install tensorboard
