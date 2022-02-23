@@ -2,8 +2,7 @@ FROM jupyter/tensorflow-notebook:2021-11-10
 
 MAINTAINER xiaomao23zhi <https://github.com/xiaomao23zhi/>
 
-#ARG CUDA_DEB=cuda-repo-ubuntu1804-10-1-local-10.1.105-418.39_1.0-1_amd64.deb
-ARG CUDA_DEB=cuda-repo-ubuntu2004-11-0-local_11.0.2-450.51.05-1_amd64.deb
+ARG CUDA_DEB=cuda-repo-ubuntu1804-10-1-local-10.1.105-418.39_1.0-1_amd64.deb
 
 USER root
 
@@ -26,11 +25,12 @@ RUN wget --quiet http://developer.download.nvidia.com/compute/cuda/11.0.2/local_
     apt-key add /var/cuda-repo-ubuntu2004-11-0-local/7fa2af80.pub && \
     apt-get update && \
     apt-get install --yes --no-install-recommends \
-    cuda-toolkit-11-0 \
-    cuda-compat-11-0 \
+    cuda-toolkit-10-1 \
+    cuda-compat-10-1 \
     && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && rm -rf ${CUDA_DEB}
-ENV PATH=/usr/local/cuda-11.0/bin${PATH:+:${PATH}}
+ENV PATH=/usr/local/cuda-10.1/bin${PATH:+:${PATH}}
+ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
     
 # Fix gnupg
 RUN chown -R ${NB_UID}:${NB_GID} ~/.gnupg
@@ -53,30 +53,30 @@ RUN pip install --no-cache-dir \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
 
-# # Install tensorflow
-# RUN pip install --no-cache-dir \
-#     keras \
-#     tensorflow \
-#     tensorflow-gpu && \
-#     fix-permissions "${CONDA_DIR}" && \
-#     fix-permissions "/home/${NB_USER}"
+# Install tensorflow
+RUN pip install --no-cache-dir \
+    keras \
+    tensorflow \
+    tensorflow-gpu && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
 
-# # Install pytorch
-# RUN conda install \
-#     pytorch \
-#     torchvision \
-#     torchaudio \
-#     cudatoolkit=11.0 \
-#     -c pytorch && \
-#     conda clean --all -f -y
+# Install pytorch
+RUN conda install \
+    pytorch \
+    torchvision \
+    torchaudio \
+    cudatoolkit=10.1 \
+    -c pytorch && \
+    conda clean --all -f -y
 
-# # Install tensorboard
-# RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
-#     pip install --no-cache-dir git+https://github.com/chaoleili/jupyterlab_tensorboard.git
+# Install tensorboard
+RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
+    pip install --no-cache-dir git+https://github.com/chaoleili/jupyterlab_tensorboard.git
 
 # clean up
 RUN rm -rf ~/.cache/pip ~/.cache/yarn
 
-WORKDIR "${HOME}"
+WORKDIR ${HOME}
 
 USER ${NB_USER}
