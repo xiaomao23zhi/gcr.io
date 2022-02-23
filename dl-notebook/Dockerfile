@@ -20,7 +20,7 @@ COPY --chown=${NB_UID}:${NB_GID} ./simhei.ttf /opt/conda/lib/python3.9/site-pack
 
 # Install CUDA
 WORKDIR /tmp
-RUN wget --quiet http://developer.download.nvidia.com/compute/cuda/11.0.2/local_installers/${CUDA_DEB} && \
+RUN wget --quiet https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/${CUDA_DEB} && \
     dpkg -i ${CUDA_DEB} && \
     apt-key add /var/cuda-repo-10-1-local-10.1.105-418.39/7fa2af80.pub && \
     apt-get update && \
