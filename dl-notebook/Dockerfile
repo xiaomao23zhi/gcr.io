@@ -77,32 +77,32 @@ RUN pip install --no-cache-dir \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
 
+ARG tf_env=tensorflow
+ARG tc_env=pytorch
+ARG py_ver=3.7
+
 # Install tensorflow
-RUN conda create --name tensorflow && \
-    source activate tensorflow
-RUN pip install --no-cache-dir \
-    keras \
-    tensorflow \
-    tensorflow-gpu \
-    && \
+RUN mamba create --quiet --yes -p "${CONDA_DIR}/envs/${tf_env}" python=${py_ver} ipython ipykernel && \
+    mamba clean --all -f -y
+RUN "${CONDA_DIR}/envs/${tf_env}/bin/python" -m ipykernel install --user --name="${tf_env}" && \
     fix-permissions "${CONDA_DIR}" && \
-    fix-permissions "/home/${NB_USER}" && \
-    python -m ipykernel install --user --name tensorflow --display-name "Tensorflow"
+    fix-permissions "/home/${NB_USER}"
+RUN "${CONDA_DIR}/envs/${tf_env}/bin/pip" install --quiet --no-cache-dir \
+    keras \
+    tensorflow==2.1.0
 COPY ./logo/tensorflow-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/tensorflow/logo-64x64.png
 
 # Install pytorch
-RUN conda create --name pytorch && \
-    source activate pytorch
-RUN conda install \
-    pytorch \
-    torchvision \
-    torchaudio \
-    cudatoolkit=10.1 \
-    -c pytorch && \
-    conda clean --all -f -y && \
+RUN mamba create --quiet --yes -p "${CONDA_DIR}/envs/${tc_env}" python=${py_ver} ipython ipykernel && \
+    mamba clean --all -f -y
+RUN "${CONDA_DIR}/envs/${tc_env}/bin/python" -m ipykernel install --user --name="${tc_env}" && \
     fix-permissions "${CONDA_DIR}" && \
-    fix-permissions "/home/${NB_USER}" && \
-    python -m ipykernel install --user --name pytorch --display-name "PyTorch"
+    fix-permissions "/home/${NB_USER}"
+RUN "${CONDA_DIR}/envs/${tc_env}/bin/pip" install --quiet --no-cache-dir \
+    torch==1.10.2+cu101 \
+    torchvision==0.11.3+cu101 \
+    torchaudio===0.10.2+cu101 \
+    -f https://download.pytorch.org/whl/cu101/torch_stable.html
 COPY ./logo/pytorch-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/pytorch/logo-64x64.png
 
 # Install tensorboard
