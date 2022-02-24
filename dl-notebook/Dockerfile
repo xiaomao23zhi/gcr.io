@@ -29,7 +29,8 @@ RUN wget --quiet https://developer.nvidia.com/compute/cuda/10.1/Prod/local_insta
     cuda-compat-10-1 \
     && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && rm -rf ${CUDA_DEB}
-ENV PATH=/usr/local/cuda-10.1/bin${PATH:+:${PATH}}
+ENV PATH=/usr/local/cuda-10.1/bin:/usr/local/cuda-10.1/NsightCompute-2019.1${PATH:+:${PATH}}
+ENV LD_LIBRARY_PATH=/usr/local/cuda-10.1/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
     
 # Fix gnupg
@@ -56,7 +57,6 @@ RUN pip install --no-cache-dir \
 # Install tensorflow
 RUN pip install --no-cache-dir \
     keras \
-    tensorflow \
     tensorflow-gpu && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
