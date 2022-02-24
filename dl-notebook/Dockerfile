@@ -54,7 +54,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libcudnn7-dev=$CUDNN_VERSION-1+cuda10.1 && \
     apt-mark hold libcudnn7 && \
     rm -rf /var/lib/apt/lists/*
-    
+
+# Install TensorRT
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libnvinfer6=6.0.1-1+cuda10.1 \
+    libnvinfer-dev=6.0.1-1+cuda10.1 \
+    libnvinfer-plugin6=6.0.1-1+cuda10.1
+
 ## Fix gnupg
 #RUN chown -R ${NB_UID}:${NB_GID} ~/.gnupg
 
