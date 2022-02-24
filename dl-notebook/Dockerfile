@@ -1,4 +1,4 @@
-FROM jupyter/tensorflow-notebook:2021-11-10
+FROM jupyter/datascience-notebook:2021-11-10
 
 MAINTAINER xiaomao23zhi <https://github.com/xiaomao23zhi/>
 
