@@ -2,8 +2,6 @@ FROM jupyter/tensorflow-notebook:2021-11-10
 
 MAINTAINER xiaomao23zhi <https://github.com/xiaomao23zhi/>
 
-ARG CUDA_DEB=cuda-repo-ubuntu1804-10-1-local-10.1.105-418.39_1.0-1_amd64.deb
-
 USER root
 
 # Install packages
@@ -14,9 +12,6 @@ RUN apt-get update --yes && \
     gnupg2 \
     language-pack-zh-hans && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
- 
-# Fix font
-COPY --chown=${NB_UID}:${NB_GID} ./simhei.ttf /opt/conda/lib/python3.9/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
 
 # Install CUDA
 WORKDIR /tmp
@@ -29,29 +24,35 @@ RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 curl ca-
 
 ENV CUDA_VERSION 10.1.105
 ENV CUDA_PKG_VERSION 10-1
-ENV NCCL_VERSION 2.4.2
-ENV CUDNN_VERSION 7.5.0.56
+ENV NCCL_VERSION 2.7.8
+ENV CUDNN_VERSION 7.6.5.32
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        cuda-cudart-$CUDA_PKG_VERSION \
-        cuda-compat-10-1=418.39-1 \
-        cuda-libraries-$CUDA_PKG_VERSION \
-        cuda-nvtx-$CUDA_PKG_VERSION \
-        libnccl2=$NCCL_VERSION-1+cuda10.1 \
-        && \
+    cuda-cudart-$CUDA_PKG_VERSION \
+    cuda-compat-10-1=418.39-1 \
+    cuda-libraries-$CUDA_PKG_VERSION \
+    cuda-nvtx-$CUDA_PKG_VERSION \
+    libnccl2=$NCCL_VERSION-1+cuda10.1 \
+    && \
     apt-mark hold libnccl2 && \
     ln -s cuda-10.1 /usr/local/cuda && \
     rm -rf /var/lib/apt/lists/*
 
+# Required for nvidia-docker v1
+RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
+    echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
+ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+
 # nvidia-container-runtime
-ENV PATH=/usr/local/cuda-10.1/bin${PATH:+:${PATH}}
+ENV PATH=/usr/local/nvidia/bin:/usr/local/cuda-10.1/bin${PATH:+:${PATH}}
 ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
 ENV NVIDIA_REQUIRE_CUDA="cuda>=10.1 brand=tesla,driver>=418,driver<419"
 
 # Install cuDNN
 LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
 RUN apt-get update && apt-get install -y --no-install-recommends \
-            libcudnn7=$CUDNN_VERSION-1+cuda10.1 && \
+    libcudnn7=$CUDNN_VERSION-1+cuda10.1 && \
+    libcudnn7-dev=$CUDNN_VERSION-1+cuda10.1 \
     apt-mark hold libcudnn7 && \
     rm -rf /var/lib/apt/lists/*
     
