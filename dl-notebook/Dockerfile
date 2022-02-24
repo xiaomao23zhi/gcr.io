@@ -32,7 +32,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     cuda-compat-10-1=418.39-1 \
     cuda-libraries-$CUDA_PKG_VERSION \
     cuda-nvtx-$CUDA_PKG_VERSION \
-    libnccl2=$NCCL_VERSION-1+cuda10.1 \
+    libnccl2=$NCCL_VERSION-1+cuda10.1
     && \
     apt-mark hold libnccl2 && \
     ln -s cuda-10.1 /usr/local/cuda && \
