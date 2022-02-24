@@ -32,8 +32,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     cuda-compat-10-1=418.39-1 \
     cuda-libraries-$CUDA_PKG_VERSION \
     cuda-nvtx-$CUDA_PKG_VERSION \
-    libnccl2=$NCCL_VERSION-1+cuda10.1
-    && \
+    libnccl2=$NCCL_VERSION-1+cuda10.1 && \
     apt-mark hold libnccl2 && \
     ln -s cuda-10.1 /usr/local/cuda && \
     rm -rf /var/lib/apt/lists/*
@@ -52,7 +51,7 @@ ENV NVIDIA_REQUIRE_CUDA="cuda>=10.1 brand=tesla,driver>=418,driver<419"
 LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libcudnn7=$CUDNN_VERSION-1+cuda10.1 \
-    libcudnn7-dev=$CUDNN_VERSION-1+cuda10.1 \
+    libcudnn7-dev=$CUDNN_VERSION-1+cuda10.1 && \
     apt-mark hold libcudnn7 && \
     rm -rf /var/lib/apt/lists/*
     
@@ -72,8 +71,7 @@ RUN pip install --no-cache-dir \
     jupyterlab-lsp \
     jupyterlab-nvdashboard \
     python-lsp-server[all] \
-    papermill \
-    && \
+    papermill && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
 
