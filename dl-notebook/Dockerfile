@@ -51,7 +51,7 @@ ENV NVIDIA_REQUIRE_CUDA="cuda>=10.1 brand=tesla,driver>=418,driver<419"
 # Install cuDNN
 LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libcudnn7=$CUDNN_VERSION-1+cuda10.1 && \
+    libcudnn7=$CUDNN_VERSION-1+cuda10.1 \
     libcudnn7-dev=$CUDNN_VERSION-1+cuda10.1 \
     apt-mark hold libcudnn7 && \
     rm -rf /var/lib/apt/lists/*

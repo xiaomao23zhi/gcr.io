@@ -145,20 +145,6 @@ COPY ./logo/tensorflow-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/
 # Install tensorboard
 RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
     pip install --no-cache-dir git+https://github.com/chaoleili/jupyterlab_tensorboard.git
-    
-# Install PyTorch
-RUN conda create --name pytorch && \
-    source activate pytorch
-RUN conda install \
-    pytorch \
-    torchvision \
-    torchaudio \
-    cudatoolkit=10.1 \
-    -c pytorch && \
-    conda clean --all -f -y \
-    && \
-    python -m ipykernel install --user --name pytorch --display-name "PyTorch"
-COPY ./logo/pytorch-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/pytorch/logo-64x64.png
 
 # clean up
 RUN rm -rf ~/.cache/pip ~/.cache/yarn
