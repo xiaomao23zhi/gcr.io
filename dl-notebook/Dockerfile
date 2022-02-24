@@ -97,9 +97,8 @@ RUN "${CONDA_DIR}/envs/${tc_env}/bin/python" -m ipykernel install --user --name=
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
 RUN "${CONDA_DIR}/envs/${tc_env}/bin/pip" install --quiet --no-cache-dir \
-    torch==1.10.2+cu101 \
-    torchvision==0.11.3+cu101 \
-    torchaudio===0.10.2+cu101 \
+    torch==1.8.1+cu101 \
+    torchvision==0.9.1+cu101 \
     -f https://download.pytorch.org/whl/cu101/torch_stable.html
 COPY ./logo/pytorch-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/pytorch/logo-64x64.png
 
