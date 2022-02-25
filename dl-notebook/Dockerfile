@@ -14,7 +14,13 @@ RUN apt-get update --yes && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install CUDA
+ENV CUDA_VERSION 10.1.105
+ENV CUDA_PKG_VERSION 10-1
+ENV NCCL_VERSION 2.7.8
+ENV CUDNN_VERSION 7.6.5.32
+
 WORKDIR /tmp
+
 RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 curl ca-certificates && \
     curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub | apt-key add - && \
     echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/cuda.list && \
@@ -22,28 +28,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 curl ca-
     apt-get purge --autoremove -y curl && \
     rm -rf /var/lib/apt/lists/*
 
-ENV CUDA_VERSION 10.1.105
-ENV CUDA_PKG_VERSION 10-1
-ENV NCCL_VERSION 2.7.8
-ENV CUDNN_VERSION 7.6.5.32
-
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    cuda-cudart-$CUDA_PKG_VERSION \
-    cuda-compat-10-1=418.39-1 \
-    cuda-libraries-$CUDA_PKG_VERSION \
-    cuda-nvtx-$CUDA_PKG_VERSION \
-    libnccl2=$NCCL_VERSION-1+cuda10.1 && \
-    apt-mark hold libnccl2 && \
-    ln -s cuda-10.1 /usr/local/cuda && \
+    cuda-$CUDA_PKG_VERSION && \
     rm -rf /var/lib/apt/lists/*
 
 # Required for nvidia-docker v1
 RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
     echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
-ENV LD_LIBRARY_PATH=/usr/local/cuda-10.1/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 
 # nvidia-container-runtime
-ENV PATH=/usr/local/nvidia/bin:/usr/local/cuda-10.1/bin${PATH:+:${PATH}}
+ENV PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin${PATH:+:${PATH}}
 ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
 ENV NVIDIA_REQUIRE_CUDA="cuda>=10.1 brand=tesla,driver>=418,driver<419"
 
