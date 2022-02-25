@@ -30,7 +30,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 curl ca-
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     cuda-$CUDA_PKG_VERSION \
-    cuda-compat-10-1=418.39-1 \&& \
+    cuda-compat-10-1=418.39-1 \
+    libcublas10 \
+    libcublas-dev && \
+    apt-mark hold libcublas10 libcublas-dev && \
     rm -rf /var/lib/apt/lists/*
 
 # Required for nvidia-docker v1
