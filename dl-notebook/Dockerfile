@@ -59,6 +59,37 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 ## Fix gnupg
 #RUN chown -R ${NB_UID}:${NB_GID} ~/.gnupg
 
+ARG PYTHON_VERSION=3.7
+ARG TENSORFLOW_ENV=tf2.1
+ARG PYTORCH_ENV=pt1.8
+
+# Install tensorflow
+RUN mamba create --quiet --yes -p "${CONDA_DIR}/envs/${TENSORFLOW_ENV}" python=${PYTHON_VERSION} ipython ipykernel && \
+    mamba clean --all -f -y
+RUN "${CONDA_DIR}/envs/${TENSORFLOW_ENV}/bin/python" -m ipykernel install --name="Tensorflow 2.1" && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
+RUN "${CONDA_DIR}/envs/${TENSORFLOW_ENV}/bin/pip" install --quiet --no-cache-dir \
+    keras \
+    tensorflow==2.1.0 && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
+COPY ./logo/tensorflow-logo-64x64.png /usr/local/share/jupyter/kernels/${TENSORFLOW_ENV}/logo-64x64.png
+
+# Install pytorch
+RUN mamba create --quiet --yes -p "${CONDA_DIR}/envs/${PYTORCH_ENV}" python=${PYTHON_VERSION} ipython ipykernel && \
+    mamba clean --all -f -y
+RUN "${CONDA_DIR}/envs/${PYTORCH_ENV}/bin/python" -m ipykernel install --name="Pytorch 1.8" && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
+RUN "${CONDA_DIR}/envs/${PYTORCH_ENV}/bin/pip" install --quiet --no-cache-dir \
+    torch==1.8.1+cu101 \
+    torchvision==0.9.1+cu101 \
+    -f https://download.pytorch.org/whl/cu101/torch_stable.html && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
+COPY ./logo/pytorch-logo-64x64.png /usr/local/share/jupyter/kernels/${PYTORCH_ENV}/logo-64x64.png
+
 USER ${NB_USER}
 
 # Add user-settings
@@ -75,33 +106,6 @@ RUN pip install --no-cache-dir \
     papermill && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
-
-ARG tf_env=tensorflow
-ARG tc_env=pytorch
-ARG py_ver=3.7
-
-# Install tensorflow
-RUN mamba create --quiet --yes -p "${CONDA_DIR}/envs/${tf_env}" python=${py_ver} ipython ipykernel && \
-    mamba clean --all -f -y
-RUN "${CONDA_DIR}/envs/${tf_env}/bin/python" -m ipykernel install --user --name="${tf_env}" && \
-    fix-permissions "${CONDA_DIR}" && \
-    fix-permissions "/home/${NB_USER}"
-RUN "${CONDA_DIR}/envs/${tf_env}/bin/pip" install --quiet --no-cache-dir \
-    keras \
-    tensorflow==2.1.0
-COPY ./logo/tensorflow-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/tensorflow/logo-64x64.png
-
-# Install pytorch
-RUN mamba create --quiet --yes -p "${CONDA_DIR}/envs/${tc_env}" python=${py_ver} ipython ipykernel && \
-    mamba clean --all -f -y
-RUN "${CONDA_DIR}/envs/${tc_env}/bin/python" -m ipykernel install --user --name="${tc_env}" && \
-    fix-permissions "${CONDA_DIR}" && \
-    fix-permissions "/home/${NB_USER}"
-RUN "${CONDA_DIR}/envs/${tc_env}/bin/pip" install --quiet --no-cache-dir \
-    torch==1.8.1+cu101 \
-    torchvision==0.9.1+cu101 \
-    -f https://download.pytorch.org/whl/cu101/torch_stable.html
-COPY ./logo/pytorch-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/pytorch/logo-64x64.png
 
 # Install tensorboard
 RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
