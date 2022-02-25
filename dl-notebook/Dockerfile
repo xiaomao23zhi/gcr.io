@@ -29,7 +29,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 curl ca-
     rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    cuda-$CUDA_PKG_VERSION && \
+    cuda-$CUDA_PKG_VERSION \
+    cuda-compat-10-1=418.39-1 \&& \
     rm -rf /var/lib/apt/lists/*
 
 # Required for nvidia-docker v1
