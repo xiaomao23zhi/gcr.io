@@ -66,7 +66,7 @@ ARG PYTORCH_ENV=pt1.8
 # Install tensorflow
 RUN mamba create --quiet --yes -p "${CONDA_DIR}/envs/${TENSORFLOW_ENV}" python=${PYTHON_VERSION} ipython ipykernel && \
     mamba clean --all -f -y
-RUN "${CONDA_DIR}/envs/${TENSORFLOW_ENV}/bin/python" -m ipykernel install --name="Tensorflow 2.1" && \
+RUN "${CONDA_DIR}/envs/${TENSORFLOW_ENV}/bin/python" -m ipykernel install --name="${TENSORFLOW_ENV}"= --display-name="Tensorflow 2.1" && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
 RUN "${CONDA_DIR}/envs/${TENSORFLOW_ENV}/bin/pip" install --quiet --no-cache-dir \
@@ -79,7 +79,7 @@ COPY ./logo/tensorflow-logo-64x64.png /usr/local/share/jupyter/kernels/${TENSORF
 # Install pytorch
 RUN mamba create --quiet --yes -p "${CONDA_DIR}/envs/${PYTORCH_ENV}" python=${PYTHON_VERSION} ipython ipykernel && \
     mamba clean --all -f -y
-RUN "${CONDA_DIR}/envs/${PYTORCH_ENV}/bin/python" -m ipykernel install --name="Pytorch 1.8" && \
+RUN "${CONDA_DIR}/envs/${PYTORCH_ENV}/bin/python" -m ipykernel install --name="${PYTORCH_ENV}" --display-name="Pytorch 1.8" && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
 RUN "${CONDA_DIR}/envs/${PYTORCH_ENV}/bin/pip" install --quiet --no-cache-dir \
