@@ -20,31 +20,31 @@ ENV NCCL_VERSION 2.7.8
 ENV CUDNN_VERSION 7.6.5.32
 
 WORKDIR /tmp
-#RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 curl ca-certificates && \
-#    curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub | apt-key add - && \
-#    echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/cuda.list && \
-#    echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list && \
-#    apt-get purge --autoremove -y curl && \
-#    rm -rf /var/lib/apt/lists/*
-#
-#RUN apt-get update && apt-get install -y --no-install-recommends \
-#    cuda-$CUDA_PKG_VERSION \
-#    cuda-compat-10-1=418.39-1 \
-#    libcublas10 \
-#    libcublas-dev && \
-#    apt-mark hold libcublas10 libcublas-dev && \
-#    rm -rf /var/lib/apt/lists/*
-ARG CUDA_DEB=cuda-repo-ubuntu1804-10-1-local-10.1.105-418.39_1.0-1_amd64.deb
 
-RUN wget --quiet https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/${CUDA_DEB} && \
-    dpkg -i ${CUDA_DEB} && \
-    apt-key add /var/cuda-repo-10-1-local-10.1.105-418.39/7fa2af80.pub && \
-    apt-get update && \
-    apt-get install --yes --no-install-recommends \
-    cuda-toolkit-10-1 \
-    cuda-compat-10-1 \
-    && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* && rm -rf ${CUDA_DEB}
+RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 curl ca-certificates && \
+    curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub | apt-key add - && \
+    echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/cuda.list && \
+    echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list && \
+    apt-get purge --autoremove -y curl && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    cuda-toolkit-10-1=10.1.105-1 \
+    libcublas10 \
+    libcublas-dev && \
+    apt-mark hold libcublas10 libcublas-dev && \
+    rm -rf /var/lib/apt/lists/*
+#ARG CUDA_DEB=cuda-repo-ubuntu1804-10-1-local-10.1.105-418.39_1.0-1_amd64.deb
+#
+#RUN wget --quiet https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/${CUDA_DEB} && \
+#    dpkg -i ${CUDA_DEB} && \
+#    apt-key add /var/cuda-repo-10-1-local-10.1.105-418.39/7fa2af80.pub && \
+#    apt-get update && \
+#    apt-get install --yes --no-install-recommends \
+#    cuda-toolkit-10-1 \
+#    cuda-compat-10-1 \
+#    && \
+#    apt-get clean && rm -rf /var/lib/apt/lists/* && rm -rf ${CUDA_DEB}
 
 # Required for nvidia-docker v1
 RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
