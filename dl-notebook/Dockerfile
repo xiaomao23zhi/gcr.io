@@ -28,13 +28,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 curl ca-
     apt-get purge --autoremove -y curl && \
     rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install -y \
-    cuda-10-1=10.1.105-1 \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    cuda-toolkit-10-1=10.1.105-1 \
+    cuda-tools-10-1=10.1.105-1  \
+    cuda-samples-10-1=10.1.105-1 \
+    cuda-documentation-10-1=10.1.105-1 \
+    cuda-libraries-dev-10-1=10.1.105-1 \
     libcublas10=10.1.0.105-1 \
     libcublas-dev=10.1.0.105-1 && \
     apt-mark hold libcublas10 libcublas-dev && \
     rm -rf /var/lib/apt/lists/*
 #ARG CUDA_DEB=cuda-repo-ubuntu1804-10-1-local-10.1.105-418.39_1.0-1_amd64.deb
+
 #
 #RUN wget --quiet https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/${CUDA_DEB} && \
 #    dpkg -i ${CUDA_DEB} && \
