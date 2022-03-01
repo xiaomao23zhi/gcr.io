@@ -28,12 +28,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 curl ca-
     apt-get purge --autoremove -y curl && \
     rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt --fix-broken install && \
+    apt-get update && apt-get install -y --no-install-recommends \
     cuda-toolkit-10-1=10.1.105-1 \
-    cuda-tools-10-1=10.1.105-1  \
-    cuda-samples-10-1=10.1.105-1 \
-    cuda-documentation-10-1=10.1.105-1 \
-    cuda-libraries-dev-10-1=10.1.105-1 \
     libcublas10=10.1.0.105-1 \
     libcublas-dev=10.1.0.105-1 && \
     apt-mark hold libcublas10 libcublas-dev && \
