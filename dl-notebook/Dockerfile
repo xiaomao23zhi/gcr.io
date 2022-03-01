@@ -14,7 +14,7 @@ RUN apt-get update --yes && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install CUDA
-ENV CUDA_VERSION 10.1.105-1
+ENV CUDA_VERSION 10.1.105
 ENV CUDA_PKG_VERSION 10-1
 ENV NCCL_VERSION 2.7.8
 ENV CUDNN_VERSION 7.6.5.32
@@ -29,7 +29,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 curl ca-
     rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    cuda-toolkit-10-1=${CUDA_VERSION} \
+    cuda-toolkit-10-1=10.1.105-1 \
     libcublas10=10.1.0.105-1 \
     libcublas-dev=10.1.0.105-1 && \
     apt-mark hold libcublas10 libcublas-dev && \
