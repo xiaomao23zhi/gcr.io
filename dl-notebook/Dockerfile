@@ -29,12 +29,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 curl ca-
     rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    cuda-toolkit-10-1=10.1.105-1 \
-    cuda-tools-10-1=10.1.105-1  \
-    cuda-samples-10-1=10.1.105-1 \
-    cuda-documentation-10-1=10.1.105-1 \
-    cuda-libraries-dev-10-1=10.1.105-1 \
-    cuda-visual-tools-10-1=10.1.105-1 \
+    cuda-toolkit-10-1=${CUDA_VERSION}-1 \
+    cuda-tools-10-1=${CUDA_VERSION}-1  \
+    cuda-samples-10-1=${CUDA_VERSION}-1 \
+    cuda-documentation-10-1=${CUDA_VERSION}-1 \
+    cuda-libraries-dev-10-1=${CUDA_VERSION}-1 \
+    cuda-visual-tools-10-1=${CUDA_VERSION}-1 \
     libcublas10=10.1.0.105-1 \
     libcublas-dev=10.1.0.105-1 && \
     apt-mark hold libcublas10 libcublas-dev && \
@@ -61,6 +61,7 @@ ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64${LD
 ENV PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin${PATH:+:${PATH}}
 ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
 ENV NVIDIA_REQUIRE_CUDA="cuda>=10.1 brand=tesla,driver>=418,driver<419"
+ENV TF_CPP_MIN_LOG_LEVEL="1"
 
 # Install cuDNN
 LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
