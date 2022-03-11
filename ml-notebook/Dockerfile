@@ -129,36 +129,48 @@ RUN pip install --no-cache-dir \
     python -m ipykernel install --user --name dask --display-name "Dask"
 COPY ./logo/dask-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/dask/logo-64x64.png
 
-# Install Tensorflow
-RUN conda create --name tensorflow && \
-    source activate tensorflow
+# Install sparkmonitor
 RUN pip install --no-cache-dir \
-    tensorflow \
-    tensorboard \
-    Keras \
+    sparkmonitor \
     && \
     fix-permissions "${CONDA_DIR}" && \
-    fix-permissions "/home/${NB_USER}" && \
-    python -m ipykernel install --user --name tensorflow --display-name "Tensorflow"
-COPY ./logo/tensorflow-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/tensorflow/logo-64x64.png
+    fix-permissions "/home/${NB_USER}"
+RUN jupyter nbextension install sparkmonitor --py --user && \
+    jupyter nbextension enable  sparkmonitor --py && \
+    jupyter lab build && \
+    ipython profile create && \
+    echo "c.InteractiveShellApp.extensions.append('sparkmonitor.kernelextension')" >>  /home/${NB_USER}/.ipython/profile_default/ipython_kernel_config.py
 
-# Install tensorboard
-RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
-    pip install --no-cache-dir git+https://github.com/chaoleili/jupyterlab_tensorboard.git
-    
-# Install PyTorch
-RUN conda create --name pytorch && \
-    source activate pytorch
-RUN conda install \
-    pytorch \
-    torchvision \
-    torchaudio \
-    cudatoolkit=10.1 \
-    -c pytorch && \
-    conda clean --all -f -y \
-    && \
-    python -m ipykernel install --user --name pytorch --display-name "PyTorch"
-COPY ./logo/pytorch-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/pytorch/logo-64x64.png
+## Install Tensorflow
+#RUN conda create --name tensorflow && \
+#    source activate tensorflow
+#RUN pip install --no-cache-dir \
+#    tensorflow \
+#    tensorboard \
+#    Keras \
+#    && \
+#    fix-permissions "${CONDA_DIR}" && \
+#    fix-permissions "/home/${NB_USER}" && \
+#    python -m ipykernel install --user --name tensorflow --display-name "Tensorflow"
+#COPY ./logo/tensorflow-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/tensorflow/logo-64x64.png
+#
+## Install tensorboard
+#RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
+#    pip install --no-cache-dir git+https://github.com/chaoleili/jupyterlab_tensorboard.git
+#
+## Install PyTorch
+#RUN conda create --name pytorch && \
+#    source activate pytorch
+#RUN conda install \
+#    pytorch \
+#    torchvision \
+#    torchaudio \
+#    cudatoolkit=10.1 \
+#    -c pytorch && \
+#    conda clean --all -f -y \
+#    && \
+#    python -m ipykernel install --user --name pytorch --display-name "PyTorch"
+#COPY ./logo/pytorch-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/pytorch/logo-64x64.png
 
 # clean up
 RUN rm -rf ~/.cache/pip ~/.cache/yarn
