@@ -59,16 +59,18 @@
     "driverMemory": "2048m",
     "executorCores": 1,
     "executorMemory": "1024m",
-    "numExecutors": 2,
+    "numExecutors": 1,
     "conf": {
-      "spark.driver.maxResultSize": "4G",
-      "spark.kryoserializer.buffer.max": "512m",
-      "spark.rpc.message.maxSize": "2000",
-      "spark.yarn.maxAppAttempts": "1",
-      "spark.executor.extraJavaOptions": "-XX:ThreadStackSize=20m -Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8",
-      "spark.driver.extraJavaOptions": "-XX:ThreadStackSize=20m -Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8",
-      "spark.extraListeners": "sparkmonitor.listener.JupyterSparkMonitorListener",
-      "spark.driver.extraClassPath": "file:///apps/sharedstorage/jtcmccproperf/common/jars/listener_2.11.jar"
+      "spark.executor.extraJavaOptions": "-XX:+UseG1GC -Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8",
+      "spark.driver.extraJavaOptions": "-XX:+UseG1GC -Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8",
+      "spark.executorEnv.PYTHONIOENCODING": "utf8",
+      "spark.yarn.appMasterEnv.PYTHONIOENCODING": "utf8",
+      "spark.dynamicAllocation.enabled": "true",
+      "spark.dynamicAllocation.shuffleTracking.enabled": "true",
+      "spark.dynamicAllocation.shuffleTracking.timeout": "600s",
+      "spark.dynamicAllocation.minExecutors": 1,
+      "spark.dynamicAllocation.maxExecutors": 3,
+      "spark.dynamicAllocation.initialExecutors": 1
     }
   },
 
