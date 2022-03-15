@@ -16,10 +16,10 @@ RUN apt-get update --yes && \
 COPY --chown=${NB_UID}:${NB_GID} ./simhei.ttf /opt/conda/lib/python3.9/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
 
 # Before notebook script for sparkmagic
-# COPY ./sparkmagic.sh /usr/local/bin/before-notebook.d/sparkmagic.sh
-# RUN chmod +x /usr/local/bin/before-notebook.d/sparkmagic.sh
-COPY ./sparkmagic.sh /usr/local/bin/start-notebook.d/sparkmagic.sh
-RUN chmod +x /usr/local/bin/start-notebook.d/sparkmagic.sh
+COPY ./sparkmagic.sh /usr/local/bin/before-notebook.d/sparkmagic.sh
+RUN chmod +x /usr/local/bin/before-notebook.d/sparkmagic.sh
+#COPY ./sparkmagic.sh /usr/local/bin/start-notebook.d/sparkmagic.sh
+#RUN chmod +x /usr/local/bin/start-notebook.d/sparkmagic.sh
     
 # # Install Julia
 # ARG julia_version="1.6.4"
