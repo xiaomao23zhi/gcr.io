@@ -72,6 +72,7 @@ RUN pip install --no-cache-dir \
     jupyterlab-lsp \
     python-lsp-server[all] \
     papermill \
+    jupyterlab-git \
     xgboost && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
@@ -129,35 +130,35 @@ RUN pip install --no-cache-dir \
     python -m ipykernel install --user --name dask --display-name "Dask"
 COPY ./logo/dask-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/dask/logo-64x64.png
 
-# Install sparkmonitor
-RUN pip install --no-cache-dir \
-    sparkmonitor \
-    && \
-    fix-permissions "${CONDA_DIR}" && \
-    fix-permissions "/home/${NB_USER}"
-RUN jupyter nbextension install sparkmonitor --py --user && \
-    jupyter nbextension enable  sparkmonitor --py && \
-    jupyter lab build && \
-    ipython profile create && \
-    echo "c.InteractiveShellApp.extensions.append('sparkmonitor.kernelextension')" >>  /home/${NB_USER}/.ipython/profile_default/ipython_kernel_config.py
+# # Install sparkmonitor
+# RUN pip install --no-cache-dir \
+#     sparkmonitor \
+#     && \
+#     fix-permissions "${CONDA_DIR}" && \
+#     fix-permissions "/home/${NB_USER}"
+# RUN jupyter nbextension install sparkmonitor --py --user && \
+#     jupyter nbextension enable  sparkmonitor --py && \
+#     jupyter lab build && \
+#     ipython profile create && \
+#     echo "c.InteractiveShellApp.extensions.append('sparkmonitor.kernelextension')" >>  /home/${NB_USER}/.ipython/profile_default/ipython_kernel_config.py
 
-## Install Tensorflow
-#RUN conda create --name tensorflow && \
-#    source activate tensorflow
-#RUN pip install --no-cache-dir \
-#    tensorflow \
-#    tensorboard \
-#    Keras \
-#    && \
-#    fix-permissions "${CONDA_DIR}" && \
-#    fix-permissions "/home/${NB_USER}" && \
-#    python -m ipykernel install --user --name tensorflow --display-name "Tensorflow"
-#COPY ./logo/tensorflow-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/tensorflow/logo-64x64.png
-#
-## Install tensorboard
-#RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
-#    pip install --no-cache-dir git+https://github.com/chaoleili/jupyterlab_tensorboard.git
-#
+# Install Tensorflow
+RUN conda create --name tensorflow && \
+   source activate tensorflow
+RUN pip install --no-cache-dir \
+   tensorflow \
+   tensorboard \
+   Keras \
+   && \
+   fix-permissions "${CONDA_DIR}" && \
+   fix-permissions "/home/${NB_USER}" && \
+   python -m ipykernel install --user --name tensorflow --display-name "Tensorflow"
+COPY ./logo/tensorflow-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/tensorflow/logo-64x64.png
+
+# Install tensorboard
+RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
+   pip install --no-cache-dir git+https://github.com/chaoleili/jupyterlab_tensorboard.git
+
 ## Install PyTorch
 #RUN conda create --name pytorch && \
 #    source activate pytorch
