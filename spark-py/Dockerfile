@@ -1,1 +1,1 @@
-FROM gcr.io/spark-operator/spark-py:v2.4.7
+FROM ghcr.io/googlecloudplatform/spark-operator/spark-py:v2.4.7
