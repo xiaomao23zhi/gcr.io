@@ -105,7 +105,7 @@ RUN julia -e 'import Pkg; Pkg.update()' && \
     fix-permissions "${CONDA_DIR}/share/jupyter"
 
 # Install sparkmagic
-RUN pip install --no-cache-dir sparkmagic && \
+RUN pip install --no-cache-dir "git+https://github.com/jupyter-incubator/sparkmagic.git@devstein/ipykernel-6#egg=sparkmagic&subdirectory=sparkmagic" && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}" && \
     jupyter-kernelspec install --user $(pip show sparkmagic | grep Location | cut -d" " -f2)/sparkmagic/kernels/sparkkernel && \
