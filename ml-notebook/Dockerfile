@@ -1,6 +1,6 @@
-FROM jupyter/all-spark-notebook:2021-11-10
+FROM jupyter/all-spark-notebook:spark-3.2.1
 
-MAINTAINER xiaomao23zhi <https://github.com/xiaomao23zhi/>
+MAINTAINER xiaomao23zhi <https://github.com/xiaomao23zhi>
 
 USER root
 
@@ -157,7 +157,7 @@ COPY ./logo/tensorflow-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/
 
 # Install tensorboard
 RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
-   pip install --no-cache-dir git+https://github.com/chaoleili/jupyterlab_tensorboard.git
+    pip install --no-cache-dir git+https://github.com/chaoleili/jupyterlab_tensorboard.git
 
 ## Install PyTorch
 #RUN conda create --name pytorch && \
