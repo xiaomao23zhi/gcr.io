@@ -1,4 +1,4 @@
-FROM jupyter/all-spark-notebook:spark-3.2.1
+FROM jupyter/all-spark-notebook:spark-3.1.1
 
 MAINTAINER xiaomao23zhi <https://github.com/xiaomao23zhi>
 
