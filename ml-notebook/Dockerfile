@@ -134,7 +134,7 @@ COPY ./logo/dask-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/dask/l
 RUN AIRFLOW_VERSION=2.1.4 && \
     PYTHON_VERSION="$(python --version | cut -d " " -f 2 | cut -d "." -f 1-2)" && \
     CONSTRAINT_URL="https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-${PYTHON_VERSION}.txt" && \
-    pip install --no-cache-dir "apache-airflow[async,postgres,google]==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}" \
+    pip install --no-cache-dir "apache-airflow[all]}" --constraint "${CONSTRAINT_URL}" \
     && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
