@@ -8,6 +8,8 @@ RUN PYTHON_VERSION="$(python --version | cut -d " " -f 2 | cut -d "." -f 1-2)" &
     pip install --no-cache-dir "apache-airflow[apache.livy,apache.spark,celery,http,jdbc,papermill,sftp]==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}"
 
 # Install other packages
-RUN pip install --no-cache-dir && \
-    airflow-code-editor==5.2.2 && \
-    prestodb
+RUN pip install --no-cache-dir \
+    airflow-code-editor==5.2.2 \
+    prestodb \
+    scikit-learn \
+    xgboost
