@@ -10,6 +10,6 @@ RUN PYTHON_VERSION="$(python --version | cut -d " " -f 2 | cut -d "." -f 1-2)" &
 # Install other packages
 RUN pip install --no-cache-dir \
     airflow-code-editor==5.2.2 \
-    prestodb \
+    presto-python-client \
     scikit-learn \
     xgboost
