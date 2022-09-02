@@ -1,1 +1,1 @@
-FROM docker pull quay.io/argoproj/argoexec:v3.3.9
+FROM quay.io/argoproj/argoexec:v3.3.9
