@@ -1,1 +1,1 @@
-from quay.io/keycloak/keycloak:17.0.1
+from quay.io/keycloak/keycloak:19.0.2
