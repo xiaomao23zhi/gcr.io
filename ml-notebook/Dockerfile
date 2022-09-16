@@ -1,4 +1,4 @@
-FROM jupyter/all-spark-notebook:spark-3.2.1
+FROM jupyter/all-spark-notebook:spark-3.1.1
 
 MAINTAINER xiaomao23zhi <https://github.com/xiaomao23zhi>
 
@@ -130,6 +130,15 @@ RUN pip install --no-cache-dir \
     python -m ipykernel install --user --name dask --display-name "Dask"
 COPY ./logo/dask-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/dask/logo-64x64.png
 
+# Install Airflow
+RUN AIRFLOW_VERSION=2.1.4 && \
+    PYTHON_VERSION="$(python --version | cut -d " " -f 2 | cut -d "." -f 1-2)" && \
+    CONSTRAINT_URL="https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-${PYTHON_VERSION}.txt" && \
+    pip install --no-cache-dir "apache-airflow[all]}" --constraint "${CONSTRAINT_URL}" \
+    && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
+    
 # # Install sparkmonitor
 # RUN pip install --no-cache-dir \
 #     sparkmonitor \
@@ -142,22 +151,22 @@ COPY ./logo/dask-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/dask/l
 #     ipython profile create && \
 #     echo "c.InteractiveShellApp.extensions.append('sparkmonitor.kernelextension')" >>  /home/${NB_USER}/.ipython/profile_default/ipython_kernel_config.py
 
-# Install Tensorflow
-RUN conda create --name tensorflow && \
-   source activate tensorflow
-RUN pip install --no-cache-dir \
-   tensorflow \
-   tensorboard \
-   Keras \
-   && \
-   fix-permissions "${CONDA_DIR}" && \
-   fix-permissions "/home/${NB_USER}" && \
-   python -m ipykernel install --user --name tensorflow --display-name "Tensorflow"
-COPY ./logo/tensorflow-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/tensorflow/logo-64x64.png
+# # Install Tensorflow
+# RUN conda create --name tensorflow && \
+#    source activate tensorflow
+# RUN pip install --no-cache-dir \
+#    tensorflow \
+#    tensorboard \
+#    Keras \
+#    && \
+#    fix-permissions "${CONDA_DIR}" && \
+#    fix-permissions "/home/${NB_USER}" && \
+#    python -m ipykernel install --user --name tensorflow --display-name "Tensorflow"
+# COPY ./logo/tensorflow-logo-64x64.png /home/jovyan/.local/share/jupyter/kernels/tensorflow/logo-64x64.png
 
-# Install tensorboard
-RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
-    pip install --no-cache-dir git+https://github.com/chaoleili/jupyterlab_tensorboard.git
+# # Install tensorboard
+# RUN pip install --no-cache-dir git+https://github.com/cliffwoolley/jupyter_tensorboard.git && \
+#     pip install --no-cache-dir git+https://github.com/chaoleili/jupyterlab_tensorboard.git
 
 ## Install PyTorch
 #RUN conda create --name pytorch && \
