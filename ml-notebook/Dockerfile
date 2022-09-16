@@ -11,7 +11,7 @@ RUN apt-get update --yes && \
     julia \
     language-pack-zh-hans && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
- 
+
 # Fix font
 COPY --chown=${NB_UID}:${NB_GID} ./simhei.ttf /opt/conda/lib/python3.9/site-packages/matplotlib/mpl-data/fonts/ttf/simhei.ttf
 
