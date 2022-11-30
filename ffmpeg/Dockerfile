@@ -10,9 +10,15 @@ ARG MAKEFLAGS="-j 8"
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     cmake \
+    libx264-dev \
+    libx265-dev \
     libtool \
     libc6 \
     libc6-dev  \
+    libfreetype6-dev \
+    libfdk-aac-dev \
+    libmp3lame-dev \
+    libogg-dev \
     libnuma1 \
     libnuma-dev \
     git \
