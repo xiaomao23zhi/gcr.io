@@ -1,0 +1,1 @@
+FROM ghcr.io/xiaomao23zhi/ffmpeg-cuda:v0.1.0
