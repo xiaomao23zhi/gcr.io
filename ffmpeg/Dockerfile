@@ -22,6 +22,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libnuma1 \
     libnuma-dev \
     git \
+    openssl \
     yasm \
     unzip \
     wget && \
