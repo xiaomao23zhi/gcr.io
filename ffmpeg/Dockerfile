@@ -12,3 +12,6 @@ RUN apt update && apt install -y --no-install-recommends \
     unzip \
     wget && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git && \
+    cd nv-codec-headers && sudo make install && cd –
