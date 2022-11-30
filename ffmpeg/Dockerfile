@@ -1,4 +1,4 @@
-FROM docker pull nvidia/cuda:11.0.3-devel-ubuntu18.04
+FROM nvidia/cuda:11.0.3-devel-ubuntu18.04
 
 RUN apt update && apt install -y --no-install-recommends \
     build-essential \
