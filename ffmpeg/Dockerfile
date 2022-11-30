@@ -3,6 +3,7 @@ ARG FFMPEG_VERSION=5.1
 FROM nvidia/cuda:11.0.3-devel-ubuntu18.04
 
 ENV DEBIAN_FRONTEND=noninteractive
+ARG FFMPEG_VERSION=5.1
 ARG PREFIX=/usr/local
 ARG MAKEFLAGS="-j 8"
 
