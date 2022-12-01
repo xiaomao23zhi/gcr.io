@@ -1,7 +1,7 @@
 ARG FFMPEG_VERSION=5.1
 
 # Build the FFmpeg-build image.
-FROM nvidia/cuda:11.0.3-devel-ubuntu18.04 as builder-ffmpeg
+FROM nvidia/cuda:10.1-devel-ubuntu18.04 as builder-ffmpeg
 
 ENV DEBIAN_FRONTEND=noninteractive
 ARG FFMPEG_VERSION=5.1
