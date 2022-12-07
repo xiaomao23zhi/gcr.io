@@ -30,6 +30,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libnuma-dev \
     libx264-dev \
     libx265-dev \
+    libvpx-dev \
     pkg-config \
     unzip \
     wget \
