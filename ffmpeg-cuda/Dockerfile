@@ -69,8 +69,7 @@ RUN ./configure \
     --enable-cuvid \
     --enable-nvenc \
     --enable-libnpp \
-    --disable-static \
-    --enable-shared && \
+    --disable-static && \
     make && \
     make install && \
     make distclean
