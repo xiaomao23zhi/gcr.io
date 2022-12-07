@@ -4,23 +4,37 @@ ARG FFMPEG_VERSION=5.1
 FROM nvidia/cuda:11.0.3-devel-ubuntu18.04 as builder-ffmpeg
 
 ENV DEBIAN_FRONTEND=noninteractive
-ARG FFMPEG_VERSION
+ARG FFMPEG_VERSION=5.1
 ARG PREFIX=/usr/local
 ARG MAKEFLAGS="-j 8"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    yasm \
     cmake \
-    git \
+    git-core \
+    libass-dev \
+    libfreetype6-dev \
+    libgnutls28-dev \
+    libmp3lame-dev \
+    libsdl2-dev \
+    libva-dev \
+    libvdpau-dev \
+    libvorbis-dev \
+    libxcb1-dev \
+    libxcb-shm0-dev \
+    libxcb-xfixes0-dev \
     libtool \
     libc6 \
     libc6-dev \
-    unzip \
-    wget \
     libnuma1 \
     libnuma-dev \
-    pkg-config && \
+    libx264-dev \
+    libx265-dev \
+    pkg-config \
+    unzip \
+    wget \
+    yasm \
+    zliblg-dev && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp
@@ -40,11 +54,20 @@ RUN wget http://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz && \
 WORKDIR /tmp/ffmpeg-${FFMPEG_VERSION}
 RUN ./configure \
     --prefix=${PREFIX} \
-    --enable-nonfree \
-    --enable-cuda-nvcc \
-    --enable-libnpp \
     --extra-cflags=-I/usr/local/cuda/include \
     --extra-ldflags=-L/usr/local/cuda/lib64 \
+    --extra-libs="-lpthread -lm" \
+    --enable-nonfree \
+    --enable-gpl \
+    --enable-libvpx \
+    --enable-libx264 \
+    --enable-libx265 \
+    --enable-cuda-nvcc \
+    --enable-cuda-llvm \
+    --enable-cuda \
+    --enable-cuvid \
+    --enable-nvenc \
+    --enable-libnpp \
     --disable-static \
     --enable-shared && \
     make && \
@@ -64,7 +87,8 @@ ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES compute,video,utility
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl && \
+    curl \
+    openjdk-8-jdk && \
     rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder-ffmpeg /usr/local /usr/local
