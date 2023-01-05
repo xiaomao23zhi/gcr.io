@@ -50,6 +50,6 @@ RUN cd deepstream_python_apps/bindings && \
     cmake .. && \
     make
 
-# Installing the bindings
-RUN cd cd deepstream_python_apps/bindings && \
-    pip3 install ./pyds-1.1.4-py3-none*.whl
+# # Installing the bindings
+# RUN cd deepstream_python_apps/bindings && \
+#     pip3 install ./pyds-1.1.4-py3-none*.whl
