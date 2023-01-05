@@ -1,5 +1,6 @@
 FROM nvcr.io/nvidia/deepstream:5.0-20.07-devel
 
+# https://github.com/NVIDIA/nvidia-docker/issues/1631
 RUN rm /etc/apt/sources.list.d/cuda.list && \
     rm /etc/apt/sources.list.d/nvidia-ml.list && \
     apt-key del 7fa2af80  && \
@@ -30,7 +31,7 @@ RUN apt-get update --yes && \
     gobject-introspection gir1.2-gst-rtsp-server-1.0 && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /opt/nvidia/deepstream/deepstream-6.1/sources
+WORKDIR /opt/nvidia/deepstream/deepstream/sources
 
 RUN git clone https://github.com/NVIDIA-AI-IOT/deepstream_python_apps && \
     cd deepstream_python_apps/ && \
