@@ -1,10 +1,11 @@
 FROM nvcr.io/nvidia/deepstream:5.0-20.07-devel
 
-WORKDIR /tmp
-ADD cuda-keyring_1.0-1_all.deb
-
-RUN apt-key del 7fa2af80 && \
-    sudo dpkg -i cuda-keyring_1.0-1_all.deb
+RUN rm /etc/apt/sources.list.d/cuda.list && \
+    rm /etc/apt/sources.list.d/nvidia-ml.list && \
+    apt-key del 7fa2af80  && \
+    apt-get update && apt-get install -y --no-install-recommends wget && \
+    wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-keyring_1.0-1_all.deb && \
+    dpkg -i cuda-keyring_1.0-1_all.deb
 
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
