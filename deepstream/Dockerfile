@@ -41,7 +41,7 @@ RUN apt-get install --yes --no-install-recommends \
 RUN cd deepstream_python_apps/3rdparty/gst-python/ && \
     ./autogen.sh && \
     make && \
-    sudo make install
+    make install
 
 # Compiling the bindings
 RUN cd deepstream_python_apps/bindings && \
