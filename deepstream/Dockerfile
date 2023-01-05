@@ -1,5 +1,9 @@
 FROM nvcr.io/nvidia/deepstream:5.0-20.07-devel
 
+RUN apt-key del 7fa2af80 && \
+    wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-keyring_1.0-1_all.deb && \
+    sudo dpkg -i cuda-keyring_1.0-1_all.deb
+
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
     python-gi-dev && \
@@ -7,10 +11,6 @@ RUN apt-get update --yes && \
 
 ENV GST_LIBS="-lgstreamer-1.0 -lgobject-2.0 -lglib-2.0"
 ENV GST_CFLAGS="-pthread -I/usr/include/gstreamer-1.0 -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include"
-
-RUN apt-key del 7fa2af80 && \
-    wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-keyring_1.0-1_all.deb && \
-    sudo dpkg -i cuda-keyring_1.0-1_all.deb
 
 RUN git clone https://github.com/GStreamer/gst-python.git && \
     cd gst-python && \
