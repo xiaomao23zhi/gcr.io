@@ -1,4 +1,4 @@
-FROM nvcr.io/nvidia/deepstream:6.1.1-devel as builder
+FROM nvcr.io/nvidia/deepstream:6.1.1-devel
 
 # Base dependencies
 RUN apt-get update --yes && \
@@ -51,8 +51,6 @@ RUN cd deepstream_python_apps/bindings && \
     make
 
 # # Installing the bindings
-FROM nvcr.io/nvidia/deepstream:6.1.1-devel
-
 ENV DEBIAN_FRONTEND=noninteractive
 ENV NVIDIA_DRIVER_VERSION=450
 ENV NVIDIA_VISIBLE_DEVICES all
@@ -66,5 +64,4 @@ RUN apt-get update --yes && \
     gobject-introspection gir1.2-gst-rtsp-server-1.0 && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder /opt/nvidia/deepstream/deepstream-6.1/sources/deepstream_python_apps/ /opt/nvidia/deepstream/deepstream-6.1/sources/deepstream_python_apps/
-RUN pip3 install /opt/nvidia/deepstream/deepstream-6.1/sources/deepstream_python_apps/bindings/build/pyds-1.1.4-py3-none-linux_x86_64.whl
+RUN pip3 install ./deepstream_python_apps/bindings/build/pyds-1.1.4-py3-none-linux_x86_64.whl
