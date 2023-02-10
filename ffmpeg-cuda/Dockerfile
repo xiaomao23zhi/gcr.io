@@ -1,6 +1,6 @@
 # From https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu
 
-FROM nvidia/cuda:11.4.1-devel-ubuntu20.04 AS devel-base
+FROM nvidia/cuda:11.0.3-devel-ubuntu20.04 AS devel-base
 
 ENV NVIDIA_DRIVER_CAPABILITIES compute,utility,video
 ENV DEBIAN_FRONTEND=nonintercative
@@ -11,7 +11,7 @@ RUN apt-get -yqq update && \
     apt-get autoremove -y && \
     apt-get clean -y
 
-FROM nvidia/cuda:11.4.1-runtime-ubuntu20.04 AS runtime-base
+FROM nvidia/cuda:11.0.3-runtime-ubuntu20.04 AS runtime-base
 
 ENV NVIDIA_DRIVER_CAPABILITIES compute,utility,video
 ENV DEBIAN_FRONTEND=nonintercative
@@ -603,7 +603,7 @@ RUN \
 FROM runtime-base AS release
 LABEL org.ffmpeg.version="5.1.2" \
       org.openjdk.version="openjdk-8-jdk" \
-      com.nvidia.cuda="11.4.1-runtime-ubuntu20.04"
+      com.nvidia.cuda="11.0.3-runtime-ubuntu20.04"
 
 ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/local/lib64
 
