@@ -268,7 +268,7 @@ RUN \
     make install && \
     rm -rf ${DIR}
 ## freetype https://www.freetype.org/
- RUN \
+RUN \
     DIR=/tmp/freetype && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
@@ -280,7 +280,7 @@ RUN \
     make install && \
     rm -rf ${DIR}
 ## libvstab https://github.com/georgmartius/vid.stab
- RUN \
+RUN \
     DIR=/tmp/vid.stab && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
@@ -292,7 +292,7 @@ RUN \
     make install && \
     rm -rf ${DIR}
 ## fridibi https://www.fribidi.org/
- RUN \
+RUN \
     DIR=/tmp/fribidi && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
@@ -306,7 +306,7 @@ RUN \
     make install && \
     rm -rf ${DIR}
 ## fontconfig https://www.freedesktop.org/wiki/Software/fontconfig/
- RUN \
+RUN \
     DIR=/tmp/fontconfig && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
@@ -317,7 +317,7 @@ RUN \
     make install && \
     rm -rf ${DIR}
 ## libass https://github.com/libass/libass
- RUN \
+RUN \
     DIR=/tmp/libass && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
@@ -502,7 +502,7 @@ RUN \
     rm -rf ${DIR}
 
 ## Download ffmpeg https://ffmpeg.org/
- RUN \
+RUN \
     DIR=/tmp/ffmpeg && mkdir -p ${DIR} && cd ${DIR} && \
     curl -sLO https://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.bz2 && \
     tar -jx --strip-components=1 -f ffmpeg-${FFMPEG_VERSION}.tar.bz2 && \
@@ -510,7 +510,7 @@ RUN \
     make ;  make install
 
 ## Build ffmpeg https://ffmpeg.org/
- RUN \
+RUN \
     DIR=/tmp/ffmpeg && cd ${DIR} && \
     ./configure \
     --disable-debug \
