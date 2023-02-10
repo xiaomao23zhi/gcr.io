@@ -584,7 +584,7 @@ ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/local/lib64
 RUN apt-get -yqq update && \
     apt-get install -yq --no-install-recommends openjdk-8-jdk && \
     apt-get autoremove -y && \
-    apt-get clean -y \
+    apt-get clean -y
 
 # install ffmpeg
 COPY --from=build /usr/local /usr/local/
