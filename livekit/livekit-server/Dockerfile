@@ -1,1 +1,1 @@
-FROM livekit/livekit-server:1.6.1
+FROM livekit/livekit-server:v1.6.1
